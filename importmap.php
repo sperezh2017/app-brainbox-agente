@@ -18,13 +18,42 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    '@hotwired/stimulus' => [
-        'version' => '3.2.2',
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
     '@hotwired/turbo' => [
         'version' => '7.3.0',
+    ],
+    'bootstrap' => [
+        'version' => '5.3.2',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.2',
+        'type' => 'css',
+    ],
+    'es-module-shims' => [
+        'version' => '1.8.2',
+    ],
+    './dist/css/tabler.min.css?1684106062' => [
+        'version' => '5.3.2',
+        'type' => 'css',
+    ],
+    './dist/css/tabler-flags.min.css?1684106062' => [
+        'version' => '5.3.2',
+        'type' => 'css',
+    ],
+    './dist/css/tabler-payments.min.css?1684106062' => [
+        'version' => '5.3.2',
+        'type' => 'css',
+    ],
+    './dist/css/tabler-vendors.min.css?1684106062' => [
+        'version' => '5.3.2',
+        'type' => 'css',
     ],
 ];
