@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CatProceso{% endblock %}
+
+{% block body %}
+    <h1>CatProceso</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cat_proceso.id }}</td>
+            </tr>
+            <tr>
+                <th>Prodescripcion</th>
+                <td>{{ cat_proceso.prodescripcion }}</td>
+            </tr>
+            <tr>
+                <th>Dia</th>
+                <td>{{ cat_proceso.dia }}</td>
+            </tr>
+            <tr>
+                <th>Proantdias</th>
+                <td>{{ cat_proceso.proantdias }}</td>
+            </tr>
+            <tr>
+                <th>Inactivo</th>
+                <td>{{ cat_proceso.inactivo ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Eliminar</th>
+                <td>{{ cat_proceso.eliminar ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Diasemana</th>
+                <td>{{ cat_proceso.diasemana }}</td>
+            </tr>
+            <tr>
+                <th>Despues</th>
+                <td>{{ cat_proceso.despues ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>HabFin</th>
+                <td>{{ cat_proceso.habFin ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cat_proceso_index') }}">back to list</a>
+
+    <a href="{{ path('app_cat_proceso_edit', {'id': cat_proceso.id}) }}">edit</a>
+
+    {{ include('cat_proceso/_delete_form.html.twig') }}
+{% endblock %}

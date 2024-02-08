@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CatProceso index{% endblock %}
+
+{% block body %}
+   <div class="page-wrapper">
+        <!-- Page header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title">
+                  Plantillas
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="card">
+              <div class="card-body">
+                <div id="table-default" class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th><button class="table-sort" data-sort="sort-name">Id</button></th>
+                        <th><button class="table-sort" data-sort="sort-name">Proceso</button></th>
+                        <th><button class="table-sort" data-sort="sort-progress">Acciones</button></th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                    {% for cat_proceso in cat_procesos %}
+                      <tr>
+                      <td class="sort-name">{{ "%03d"|format(cat_proceso.id) }}</td>
+                        <td class="sort-name">
+                          <a href="#" data-bs-toggle="modal" class="text-reset" data-bs-target="#modal-list">
+                              {{cat_proceso.prodescripcion}}
+                          </a>
+                        </td>
+                        <td class="sort-progress">
+                            <a href="#" class="bg-green text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-report">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                            </a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Nueva Tarea</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Tarea</label>
+                <input type="text" class="form-control" name="example-text-input" placeholder="Ingresar Tarea">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                Cancel
+              </a>
+              <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                Grabar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-blur fade" id="modal-list" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Lista Tarea</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Proceso</label>
+                <label class="form-label">Nombre Proceso</label>
+              </div>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th><button class="table-sort" data-sort="sort-name">Id</button></th>
+                        <th><button class="table-sort" data-sort="sort-name">Tarea</button></th>
+                        <th><button class="table-sort" data-sort="sort-progress">Fecha</button></th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                      <tr>
+                        <td>005</td>
+                        <td>Prueba de Tarea</td>
+                        <td>07/02/2024</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                Cerrar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}  
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+      const list = new List('table-default', {
+      	sortClass: 'table-sort',
+      	listClass: 'table-tbody',
+      	valueNames: [ 'sort-name', 'sort-type', 'sort-city', 'sort-score',
+      		{ attr: 'data-date', name: 'sort-date' },
+      		{ attr: 'data-progress', name: 'sort-progress' },
+      		'sort-quantity'
+      	]
+      });
+      })
+    </script>
+        {% endblock %}

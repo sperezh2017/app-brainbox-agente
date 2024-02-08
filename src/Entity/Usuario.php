@@ -68,11 +68,15 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $eliminar = null;
 
+    #[ORM\OneToMany(mappedBy: 'usucreate', targetEntity: CatSubProcesos::class)]
+    private Collection $catSubProcesos;
+
     public function __construct()
     {
         $this->tareas = new ArrayCollection();
         $this->clientes = new ArrayCollection();
         $this->usuarios = new ArrayCollection();
+        $this->catSubProcesos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -351,6 +355,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEliminar(bool $eliminar): static
     {
         $this->eliminar = $eliminar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CatSubProcesos>
+     */
+    public function getCatSubProcesos(): Collection
+    {
+        return $this->catSubProcesos;
+    }
+
+    public function addCatSubProceso(CatSubProcesos $catSubProceso): static
+    {
+        if (!$this->catSubProcesos->contains($catSubProceso)) {
+            $this->catSubProcesos->add($catSubProceso);
+            $catSubProceso->setUsucreate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatSubProceso(CatSubProcesos $catSubProceso): static
+    {
+        if ($this->catSubProcesos->removeElement($catSubProceso)) {
+            // set the owning side to null (unless already changed)
+            if ($catSubProceso->getUsucreate() === $this) {
+                $catSubProceso->setUsucreate(null);
+            }
+        }
 
         return $this;
     }

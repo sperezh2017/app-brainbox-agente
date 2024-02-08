@@ -123,17 +123,13 @@
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url({{ asset('./agente/static/avatars/000m.jpg') }})"></span>
                 <div class="d-none d-xl-block ps-2">
-                  <div style="color: rgb(247,246,248)">Pawel Kuna</div>
-                  <div class="mt-1 small text-muted" style="color: rgb(247,246,248)">UI Designer</div>
+                  <div style="color: rgb(247,246,248)">Admin</div>
+                  <div class="mt-1 small text-muted" style="color: rgb(247,246,248)">Administrador</div>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <a href="#" class="dropdown-item">Status</a>
-                <a href="./profile.html" class="dropdown-item">Profile</a>
-                <a href="#" class="dropdown-item">Feedback</a>
-                <div class="dropdown-divider"></div>
-                <a href="./settings.html" class="dropdown-item">Settings</a>
-                <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                <a href="{{ path('app_dashboard') }}" class="dropdown-item">Perfil</a>
+                <a href="{{ path('security_logout') }}" class="dropdown-item">Salir</a>
               </div>
             </div>
           </div>
@@ -178,7 +174,7 @@
                   <div class="dropdown-menu">
                     <div class="dropdown-menu-columns">
                       <div class="dropdown-menu-column">
-                        <a class="dropdown-item" href="./accordion.html">
+                        <a class="dropdown-item" href="{{ path('app_cat_proceso_index') }}">
                           Plantillas
                         </a>
                       </div>

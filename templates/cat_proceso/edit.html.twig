@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CatProceso{% endblock %}
+
+{% block body %}
+    <h1>Edit CatProceso</h1>
+
+    {{ include('cat_proceso/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_cat_proceso_index') }}">back to list</a>
+
+    {{ include('cat_proceso/_delete_form.html.twig') }}
+{% endblock %}
