@@ -1,13 +1,329 @@
-{% extends 'base.html.twig' %}
+<div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3>{% if cliente is defined %}
+                                Editar Proceso
+                            {% else %}
+                                Nuevo Proceso
+                            {% endif %}</h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_dashboard') }}"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item">Proceso</li>
+                    <li class="breadcrumb-item active">{% if proceso is defined %}
+                                Editar Proceso
+                            {% else %}
+                                Nuevo Proceso
+                            {% endif %}</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="edit-profile">
+              <div class="row">
+              <div class="col-lg-2">
+              </div>
+                <div class="col-lg-8">
+                  <form class="card" action="{{ path('app_cat_proceso_new') }}" method="post">
+                    <div class="card-header pb-0">
+                      <h4 class="card-title mb-0">Editar</h4>
+                      <span>Los Campos Marcados con<code class="text-danger">*</code> son de Caracter Obligatorio.</span>
+                      <div class="card-options"><a class="card-options-collapse" href="javascript:void(0)" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="javascript:void(0)" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"><b>Codigo</b></label>
+                            <h3>{% if proceso is defined %}{{ "%03d"|format(proceso.id) }}{% else %}{{ "%03d"|format(ultcodigo) }}{% endif %}</h3>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"><b>Nombre Proceso</b></label>
+                            <code class="text-danger">*</code>
+                            <input class="form-control" type="text" name="nombproceso" value="{% if proceso is defined %}{{ proceso.prodescripcion }}{% endif %}" placeholder="Descripcion Proceso" required>
+                            <input class="form-control" type="hidden" name="procesoid" value="{% if proceso is defined %}{{ proceso.id }}{% endif %}" placeholder="Descripcion Proceso" required>
+                            <input  name="nuevo" value="{% if proceso is defined %}0 {% else %} 1 {% endif %}" type="hidden"/>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"><b>Entidad de Control</b></label>
+                            <code class="text-danger">*</code>
+                            <select class="form-control btn-square" name="entidad" required>
+                              <option value="">--Seleccionar Entidad--</option>
+                              {% for entidad in entidades %}
+                                {% set selectd = '' %}
+                                {% if proceso is defined and proceso.entidad is not empty %}
+                                    {% if entidad.id == proceso.entidad.id %}
+                                        {% set selectd = 'selected' %}
+                                    {% endif %}
+                                {% endif %}
+                              <option value="{{ entidad.id }}" {{ selectd }}>{{ entidad.descripcion }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                          
+                        </div>
+                        <div class="col-sm-1 col-md-1">
+                          <div class="mb-3">
+                            <label class="form-label"><b>Activo</b></label>
+                          </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2">
+                          <div class="mb-3">
+                          <div class="flex-grow-1 text-start icon-state">
+                          <label class="switch">
+                            <input id="bootstrap-notify-url" name="activo" type="checkbox" {% if proceso is defined %}{% if proceso.inactivo == false %} checked {% endif %}{% else %} checked {% endif %}><span class="switch-state"></span>
+                          </label>
+                          </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                          <div class="mb-3" style="background-color: #0F98F8;text-align: center;">
+                            <h3 class="mb-1 f-20" style="color: #f8f8f8">Programacion Periodica</h3>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"><b>Tipo de Programacion</b></label>
+                            <code class="text-danger">*</code>
+                            <select class="form-control btn-square tipoproceso" name="tipoproceso" required>
+                              <option>--Seleccionar Tipo--</option>
+                              {% for tipoproceso in tipoprocesos %}
+                                {% set selectd = '' %}
+                                {% if proceso is defined and proceso.tipoproceso is not empty %}
+                                    {% if tipoproceso.id == proceso.tipoproceso.id %}
+                                        {% set selectd = 'selected' %}
+                                    {% endif %}
+                                {% endif %}
+                              <option value="{{ tipoproceso.id }}" {{ selectd }}>{{ tipoproceso.recurrencia }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label"><b>Variable Fecha Inicio</b></label>
+                            <code class="text-danger">*</code>
+                            <select class="form-control btn-square variableIni" name="variableIni" required>
+                              <option value="0">--Seleccionar Variable--</option>
+                              {% for variable in variables %}
+                                {% set selectd = '' %}
+                                {% if proceso is defined and proceso.variableInicio is not empty %}
+                                    {% if variable.id == proceso.variableInicio.id %}
+                                        {% set selectd = 'selected' %}
+                                    {% endif %}
+                                {% endif %}
+                                <option value="{{ variable.id }}" {{ selectd }}>{{ variable.variable }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          {% if proceso is defined and proceso.recurrencia is not empty %}
+                            {% set dispfre = 'display: true;' %} 
+                          {% else %}
+                            {% set dispfre = 'display: none;' %}          
+                          {% endif %}
+                          <div class="mb-3 div-frecuencia" style="{{ dispfre }}">
+                            <label class="form-label"><b>Frecuencia</b></label>
+                            <code class="text-danger">*</code>
+                            <select class="form-control btn-square recurrencia" name="recurrencia" required>
+                              <option>--Seleccionar Frecuencia--</option>
+                              {% for recurrencia in recurrencias %}
+                                {% set selectd = '' %}
+                                {% if proceso is defined and proceso.recurrencia is not empty %}
+                                    {% if recurrencia.id == proceso.recurrencia.id %}
+                                        {% set selectd = 'selected' %}
+                                    {% endif %}
+                                {% endif %}
+                              <option value="{{ recurrencia.id }}" {{ selectd }}>{{ recurrencia.descripcion }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            {% set disabled = 'disabled' %}
+                            {% set display = 'display: none;' %}
+                            {% if proceso is defined and proceso.recurrencia is not empty %}
+                              {% if proceso is defined and proceso.recurrencia.id == 1 %}
+                                  {% set disabled = 'disabled' %}
+                                  {% set display = 'display: none;' %}
+                              {% endif %}
+                              {% if proceso is defined and proceso.recurrencia.id == 2 %}
+                                  {% set disabled = '' %}
+                                  {% set display = 'display: true;' %}
+                              {% endif %}
+                              {% if proceso is defined and proceso.recurrencia.id == 3 %}
+                                  {% set disabled = 'disabled' %}
+                                  {% set display = 'display: none;' %}
+                              {% endif %}
+                              {% if proceso is defined and proceso.recurrencia.id == 4 %}
+                                  {% set disabled = 'disabled' %}
+                                  {% set display = 'display: none;' %}
+                              {% endif %}
+                              {% if proceso is defined and proceso.recurrencia.id == 5 %}
+                                  {% set disabled = '' %}
+                                  {% set display = 'display: true;' %}
+                              {% endif %}
+                            {% endif %}  
+                            <div class="mb-3 div-mes" style="{{ display }}">
+                              <label class="form-label lab-mes"><b>Mes</b></label>
+                              <select class="form-control btn-square mes" name="mes">
+                                <option value="0">--Seleccionar Mes--</option>
+                                {% for mes in mess %}
+                                  {% set selectd = '' %}
+                                  {% if proceso is defined and proceso.mes is not empty %}
+                                      {% if mes.id == proceso.mes.id %}
+                                          {% set selectd = 'selected' %}
+                                      {% endif %}
+                                  {% endif %}
+                                <option value="{{ mes.id }}" {{ selectd }}>{{ mes.mes }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                          {% if proceso is defined and proceso.proantdias is not empty %}
+                            {% set dispant = 'display: true;' %} 
+                          {% else %}
+                            {% set dispant = 'display: none;' %}          
+                          {% endif %}
+                          <div class="mb-3 div-antelacion" style="{{ dispant }}">
+                            <label class="form-label"><b># dia de Inicio</b></label>
+                            <input class="form-control antelacion" min="0" type="number" name="antelacion" value="{% if proceso is defined %}{{ proceso.proantdias }}{% endif %}" placeholder="Dias" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          {% set dispdesp = 'display: none;' %} 
+                          {% set dispdespp = 'display: none;' %} 
+                          {% set despuescked = '' %}
+                          {% set antesched = '' %}
+                          {% set despuesched = '' %} 
+                            {% if proceso is defined and proceso.variableInicio is not empty %}
+                              {% if proceso.variableInicio.id == 1 %}
+                                {% set dispdespp = 'display: true;' %}
+                                {% if proceso.despues == 1 %}  
+                                  {% set despuescked = 'checked' %} 
+                                {% endif %}          
+                              {% endif %}
+                              {% if proceso.variableInicio.id == 2 or proceso.variableInicio.id == 3 %}
+                                {% set dispdesp = 'display: true;' %} 
+                                {% if proceso.despues == 1 %}  
+                                  {% set antesched = 'checked' %} 
+                                {% else %}
+                                  {% set despuesched = 'checked' %}  
+                                {% endif %}       
+                              {% endif %}
+                            {% endif %}  
+                          <div class="mb-3 div-antes" style="{{ dispdesp }}">
+                            <label class="form-label"><b>Dias antes o despues de la fecha</b></label>
+                            <label class="d-block" for="edo-ani">
+                              <input class="radio_animated" id="edo-ani" type="radio" name="vencimiento" value="1"  {{ antesched }}><b>Antes</b>
+                            </label>
+                            <label class="d-block" for="edo-ani1">
+                              <input class="radio_animated" id="edo-ani1" type="radio" name="vencimiento" value="2" {{ despuesched }}><b>Despues</b>
+                            </label>
+                          </div>
+                          <div class="mb-3 div-alta" style="{{ dispdespp }}">
+                            <label class="form-label"></label>
+                            <label class="d-block" for="chk-ani">
+                              <input class="checkbox_animated" id="chk-alta" type="checkbox" name="alta" {{ despuescked }}><b>Despues de Fecha</b>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2">
+                          
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                          {% if proceso is defined and proceso.dia is not empty %}
+                            {% set dispdia = 'display: true;' %} 
+                          {% else %}
+                            {% set dispdia = 'display: none;' %}          
+                          {% endif %}
+                          <div class="mb-3 div-dias" style="{{ dispdia }}">
+                            <label class="form-label"><b>Dias de Vencimiento</b></label>
+                            <input class="form-control dia" min="0" max="31" type="number" name="dias" value="{% if proceso is defined %}{{ proceso.dia }}{% endif %}" placeholder="Dias" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2">
+                          
+                        </div>
+                        <div class="col-md-3">
+                          {% if proceso is defined and proceso.recurrencia is not empty %}
+                            {% if proceso.recurrencia.id == 4 %}
+                              {% set dispsemana = 'display: true;' %} 
+                            {% else %}
+                              {% set dispsemana = 'display: none;' %}
+                            {% endif %}  
+                          {% else %}
+                            {% set dispsemana = 'display: none;' %}          
+                          {% endif %}
+                          <div class="card div-semana" style="{{ dispsemana }}">
+                            <div class="card-body animate-chk">
+                              <div class="row">
+                                <div class="col">
+                                  <label class="d-block" for="edo-ani">
+                                    <input class="radio_animated" id="edo-ani" type="radio" name="d-semana" value="1">Lunes
+                                  </label>
+                                  <label class="d-block" for="edo-ani1">
+                                    <input class="radio_animated" id="edo-ani1" type="radio" name="d-semana" value="3">Miercoles
+                                  </label>
+                                  <label class="d-block" for="edo-ani2">
+                                    <input class="radio_animated" id="edo-ani2" type="radio" name="d-semana" value="5">Viernes
+                                  </label>
+                                  <label class="d-block" for="edo-ani3">
+                                    <input class="radio_animated" id="edo-ani3" type="radio" name="d-semana" value="7">Domingo
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="card div-semana" style="{{ dispsemana }}">
+                            <div class="card-body animate-chk">
+                              <div class="row">
+                                <div class="col">
+                                  <label class="d-block" for="edo-ani">
+                                    <input class="radio_animated" id="edo-ani4" type="radio" name="d-semana" value="2">Martes
+                                  </label>
+                                  <label class="d-block" for="edo-ani1">
+                                    <input class="radio_animated" id="edo-ani5" type="radio" name="d-semana" value="4">Jueves
+                                  </label>
+                                  <label class="d-block" for="edo-ani2">
+                                    <input class="radio_animated" id="edo-ani6" type="radio" name="d-semana" value="6">Sabado
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3 div-habil" style="display: none">
+                            <label class="d-block" for="chk-ani">
+                              <input class="checkbox_animated" id="chk-ani" type="checkbox" name="habilitar"><b>Saltar a dia Habile si es fin de semana</b>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-end">
+                      <button class="btn btn-primary" type="submit">{% if proceso is defined %}Actualizar Proceso{% else %}Grabar Proceso{% endif %}</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
 
-{% block title %}Edit CatProceso{% endblock %}
-
-{% block body %}
-    <h1>Edit CatProceso</h1>
-
-    {{ include('cat_proceso/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_cat_proceso_index') }}">back to list</a>
-
-    {{ include('cat_proceso/_delete_form.html.twig') }}
-{% endblock %}

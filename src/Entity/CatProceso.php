@@ -66,12 +66,16 @@ class CatProceso
     #[ORM\Column]
     private ?bool $habFin = null;
 
+    #[ORM\OneToMany(mappedBy: 'proceso', targetEntity: Tarea::class)]
+    private Collection $tareas;
+
     public function __construct()
     {
         $this->catSubProcesos = new ArrayCollection();
         $this->cliTemplates = new ArrayCollection();
         $this->clienteProcesos = new ArrayCollection();
         $this->tipoGuias = new ArrayCollection();
+        $this->tareas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,6 +349,36 @@ class CatProceso
     public function setHabFin(bool $habFin): static
     {
         $this->habFin = $habFin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tarea>
+     */
+    public function getTareas(): Collection
+    {
+        return $this->tareas;
+    }
+
+    public function addTarea(Tarea $tarea): static
+    {
+        if (!$this->tareas->contains($tarea)) {
+            $this->tareas->add($tarea);
+            $tarea->setProceso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTarea(Tarea $tarea): static
+    {
+        if ($this->tareas->removeElement($tarea)) {
+            // set the owning side to null (unless already changed)
+            if ($tarea->getProceso() === $this) {
+                $tarea->setProceso(null);
+            }
+        }
 
         return $this;
     }

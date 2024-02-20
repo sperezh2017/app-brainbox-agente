@@ -2,18 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\CatMes;
+use App\Entity\CatDias;
+use App\Entity\CatGrupo;
+use App\Entity\CatEntidad;
 use App\Entity\CatProceso;
+use App\Entity\TipoProceso;
 use App\Form\CatProcesoType;
+use App\Entity\CatRecurrencia;
+use App\Entity\VariableInicio;
 use App\Repository\CatProcesoRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/cat/proceso')]
 class CatProcesoController extends AbstractController
 {
+    private $em;
+
+    public function __construct(ManagerRegistry $em)
+    {
+        $this->em = $em->getManager();
+    }
+    
     #[Route('/', name: 'app_cat_proceso_index', methods: ['GET'])]
     public function index(CatProcesoRepository $catProcesoRepository): Response
     {
@@ -42,11 +57,29 @@ class CatProcesoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_cat_proceso_show', methods: ['GET'])]
-    public function show(CatProceso $catProceso): Response
+    #[Route('/vista', name: 'app_cat_proceso_show', methods: ['GET', 'POST'])]
+    public function show(Request $request): Response
     {
+        $idproceso = $request->get('procesoid');
+        $proceso   = $this->em->getRepository(CatProceso::class)->findOneById($idproceso);
+        $dias      = $this->em->getRepository(CatDias::class)->findAll();
+        $mes       = $this->em->getRepository(CatMes::class)->findAll();
+        $recurenc  = $this->em->getRepository(CatRecurrencia::class)->findAll();
+        $entidades = $this->em->getRepository(CatEntidad::class)->findAll();
+        $grupos    = $this->em->getRepository(CatGrupo::class)->findAll();
+        $tipprocess = $this->em->getRepository(TipoProceso::class)->findAll();
+        $tipoid     = $proceso->getTipoProceso();
+        $variables = $this->em->getRepository(VariableInicio::class)->findByTipoProceso($tipoid);
+
         return $this->render('cat_proceso/show.html.twig', [
-            'cat_proceso' => $catProceso,
+            'proceso'      => $proceso,
+            'dias'         => $dias,
+            'mess'         => $mes,
+            'recurrencias' => $recurenc,
+            'entidades'    => $entidades,
+            'grupos'       => $grupos,
+            'tipoprocesos' => $tipprocess,
+            'variables'    => $variables,
         ]);
     }
 
@@ -68,7 +101,7 @@ class CatProcesoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_cat_proceso_delete', methods: ['POST'])]
+    #[Route('/{id}/eliminar', name: 'app_cat_proceso_delete', methods: ['POST'])]
     public function delete(Request $request, CatProceso $catProceso, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$catProceso->getId(), $request->request->get('_token'))) {

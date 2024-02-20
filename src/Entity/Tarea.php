@@ -20,33 +20,25 @@ class Tarea
     private ?Usuario $creador = null;
 
     #[ORM\ManyToOne(inversedBy: 'tareas')]
-    private ?Cliente $cliente = null;
-
-    #[ORM\ManyToOne(inversedBy: 'tareas')]
     private ?Usuario $usuario = null;
 
     #[ORM\Column(length: 150)]
     private ?string $titulo = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $fechaini = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $fechafin = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $fechamod = null;
 
-    #[ORM\OneToMany(mappedBy: 'tarea', targetEntity: DetalleTarea::class)]
-    private Collection $detalleTareas;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $fechacrea = null;
 
     #[ORM\ManyToOne(inversedBy: 'tareas')]
-    private ?EstadoTarea $estado = null;
+    private ?CatProceso $proceso = null;
 
-    public function __construct()
-    {
-        $this->detalleTareas = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?bool $inactivo = null;
+
+    #[ORM\Column]
+    private ?bool $eliminar = null;
 
     public function getId(): ?int
     {
@@ -61,18 +53,6 @@ class Tarea
     public function setCreador(?usuario $creador): static
     {
         $this->creador = $creador;
-
-        return $this;
-    }
-
-    public function getCliente(): ?cliente
-    {
-        return $this->cliente;
-    }
-
-    public function setCliente(?cliente $cliente): static
-    {
-        $this->cliente = $cliente;
 
         return $this;
     }
@@ -101,30 +81,6 @@ class Tarea
         return $this;
     }
 
-    public function getFechaini(): ?\DateTimeInterface
-    {
-        return $this->fechaini;
-    }
-
-    public function setFechaini(\DateTimeInterface $fechaini): static
-    {
-        $this->fechaini = $fechaini;
-
-        return $this;
-    }
-
-    public function getFechafin(): ?\DateTimeInterface
-    {
-        return $this->fechafin;
-    }
-
-    public function setFechafin(\DateTimeInterface $fechafin): static
-    {
-        $this->fechafin = $fechafin;
-
-        return $this;
-    }
-
     public function getFechamod(): ?\DateTimeInterface
     {
         return $this->fechamod;
@@ -136,45 +92,51 @@ class Tarea
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, DetalleTarea>
-     */
-    public function getDetalleTareas(): Collection
+    
+    public function getFechacrea(): ?\DateTimeInterface
     {
-        return $this->detalleTareas;
+        return $this->fechacrea;
     }
 
-    public function addDetalleTarea(DetalleTarea $detalleTarea): static
+    public function setFechacrea(\DateTimeInterface $fechacrea): static
     {
-        if (!$this->detalleTareas->contains($detalleTarea)) {
-            $this->detalleTareas->add($detalleTarea);
-            $detalleTarea->setTarea($this);
-        }
+        $this->fechacrea = $fechacrea;
 
         return $this;
     }
 
-    public function removeDetalleTarea(DetalleTarea $detalleTarea): static
+    public function getProceso(): ?CatProceso
     {
-        if ($this->detalleTareas->removeElement($detalleTarea)) {
-            // set the owning side to null (unless already changed)
-            if ($detalleTarea->getTarea() === $this) {
-                $detalleTarea->setTarea(null);
-            }
-        }
+        return $this->proceso;
+    }
+
+    public function setProceso(?CatProceso $proceso): static
+    {
+        $this->proceso = $proceso;
 
         return $this;
     }
 
-    public function getEstado(): ?EstadoTarea
+    public function isInactivo(): ?bool
     {
-        return $this->estado;
+        return $this->inactivo;
     }
 
-    public function setEstado(?EstadoTarea $estado): static
+    public function setInactivo(bool $inactivo): static
     {
-        $this->estado = $estado;
+        $this->inactivo = $inactivo;
+
+        return $this;
+    }
+
+    public function isEliminar(): ?bool
+    {
+        return $this->eliminar;
+    }
+
+    public function setEliminar(bool $eliminar): static
+    {
+        $this->eliminar = $eliminar;
 
         return $this;
     }

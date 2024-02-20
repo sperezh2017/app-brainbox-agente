@@ -1,54 +1,221 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}CatProceso{% endblock %}
-
-{% block body %}
-    <h1>CatProceso</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cat_proceso.id }}</td>
-            </tr>
-            <tr>
-                <th>Prodescripcion</th>
-                <td>{{ cat_proceso.prodescripcion }}</td>
-            </tr>
-            <tr>
-                <th>Dia</th>
-                <td>{{ cat_proceso.dia }}</td>
-            </tr>
-            <tr>
-                <th>Proantdias</th>
-                <td>{{ cat_proceso.proantdias }}</td>
-            </tr>
-            <tr>
-                <th>Inactivo</th>
-                <td>{{ cat_proceso.inactivo ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Eliminar</th>
-                <td>{{ cat_proceso.eliminar ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Diasemana</th>
-                <td>{{ cat_proceso.diasemana }}</td>
-            </tr>
-            <tr>
-                <th>Despues</th>
-                <td>{{ cat_proceso.despues ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>HabFin</th>
-                <td>{{ cat_proceso.habFin ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_cat_proceso_index') }}">back to list</a>
-
-    <a href="{{ path('app_cat_proceso_edit', {'id': cat_proceso.id}) }}">edit</a>
-
-    {{ include('cat_proceso/_delete_form.html.twig') }}
-{% endblock %}
+<div class="modal-body">
+  <div class="row">
+    <div class="col-lg-1">
+      <label class="form-label"><b>Codigo:</b></label>
+    </div>
+    <div class="col-lg-1">
+      <h3>{{ "%03d"|format(proceso.id) }}</h3>
+    </div>
+    <div class="col-lg-4">
+    </div>
+    <div class="col-lg-6">
+      <label class="form-label"><b>Nombre Proceso:</b></label>
+      <input class="form-control" type="text" name="nombproceso" value="{{ proceso.prodescripcion }}" placeholder="Descripcion Proceso" readonly>
+    </div>
+  </div>
+  </br>
+  <div class="row">
+    <div class="col-lg-6">
+     <label class="form-label"><b>Entidad de Control:</b></label>
+     <input class="form-control" type="text" name="nombproceso" value="{{ proceso.entidad.descripcion }}" placeholder="Descripcion Proceso" readonly>
+    </div>
+    <div class="col-sm-1 col-md-3">
+    </div>
+    <div class="col-sm-1 col-md-1">
+      <div class="mb-3">
+        <label class="form-label"><b>Activo</b></label>
+      </div>
+    </div>
+    <div class="col-sm-2 col-md-2">
+      <div class="mb-3">
+        <div class="flex-grow-1 text-start icon-state">
+          <label class="form-check form-switch">
+            <input class="form-check-input" name="activo" type="checkbox" {% if proceso is defined %}{% if proceso.inactivo == false %} checked {% endif %}{% else %} checked {% endif %}>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  </br>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="mb-3" style="background-color: #0F98F8;text-align: center;">
+        <label class="form-label" style="color: #f8f8f8">Programacion Periodica</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+     <label class="form-label"><b>Tipo de Programacion:</b></label>
+     <input class="form-control" type="text" name="nombproceso" value="{{  proceso.tipoproceso.recurrencia }}" placeholder="Descripcion Proceso" readonly>
+    </div>
+    <div class="col-lg-6">
+      <label class="form-label"><b>Variable Fecha Inicio:</b></label>
+      <input class="form-control" type="text" name="nombproceso" value="{{ proceso.variableInicio.variable }}" placeholder="Descripcion Proceso" readonly>
+    </div>
+  </div>
+  </br>
+  <div class="row">
+    {% if proceso is defined and proceso.recurrencia is not empty %}
+        {% set dispfre = 'display: true;' %} 
+      {% else %}
+        {% set dispfre = 'display: none;' %}          
+      {% endif %}
+    <div class="col-lg-6">
+      <div class="mb-3 div-frecuencia" style="{{ dispfre }}">
+        <label class="form-label"><b>Frecuencia:</b></label>
+        <input class="form-control" type="text" name="nombproceso" value="{{ proceso.recurrencia.descripcion }}" placeholder="Descripcion Proceso" readonly>
+      </div>
+    </div>
+    {% set disabled = 'disabled' %}
+    {% set display = 'display: none;' %}
+    {% if proceso is defined and proceso.recurrencia is not empty %}
+      {% if proceso is defined and proceso.recurrencia.id == 1 %}
+          {% set disabled = 'disabled' %}
+          {% set display = 'display: none;' %}
+      {% endif %}
+      {% if proceso is defined and proceso.recurrencia.id == 2 %}
+          {% set disabled = '' %}
+          {% set display = 'display: true;' %}
+      {% endif %}
+      {% if proceso is defined and proceso.recurrencia.id == 3 %}
+          {% set disabled = 'disabled' %}
+          {% set display = 'display: none;' %}
+      {% endif %}
+      {% if proceso is defined and proceso.recurrencia.id == 4 %}
+          {% set disabled = 'disabled' %}
+          {% set display = 'display: none;' %}
+      {% endif %}
+      {% if proceso is defined and proceso.recurrencia.id == 5 %}
+          {% set disabled = '' %}
+          {% set display = 'display: true;' %}
+      {% endif %}
+    {% endif %}
+    <div class="col-lg-6">
+      <div class="mb-3 div-mes" style="{{ display }}">
+        <label class="form-label"><b>Mes:</b></label>
+        <input class="form-control" type="text" name="nombproceso" value="{{ proceso.mes.mes }}" placeholder="Descripcion Proceso" readonly>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {% if proceso is defined and proceso.proantdias is not empty %}
+      {% set dispant = 'display: true;' %} 
+    {% else %}
+      {% set dispant = 'display: none;' %}          
+    {% endif %}
+    <div class="col-lg-6">
+      <div class="mb-3 div-antelacion" style="{{ dispant }}">
+        <label class="form-label"><b># dia de Inicio:</b></label>
+        <input class="form-control antelacion" min="0" type="number" name="antelacion" value="{% if proceso is defined %}{{ proceso.proantdias }}{% endif %}" placeholder="Dias" readonly/>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6">
+      {% set dispdesp = 'display: none;' %} 
+      {% set dispdespp = 'display: none;' %} 
+      {% set despuescked = '' %}
+      {% set antesched = '' %}
+      {% set despuesched = '' %} 
+        {% if proceso is defined and proceso.variableInicio is not empty %}
+          {% if proceso.variableInicio.id == 1 %}
+            {% set dispdespp = 'display: true;' %}
+            {% if proceso.despues == 1 %}  
+              {% set despuescked = 'checked' %} 
+            {% endif %}          
+          {% endif %}
+          {% if proceso.variableInicio.id == 2 or proceso.variableInicio.id == 3 %}
+            {% set dispdesp = 'display: true;' %} 
+            {% if proceso.despues == 1 %}  
+              {% set antesched = 'checked' %} 
+            {% else %}
+              {% set despuesched = 'checked' %}  
+            {% endif %}       
+          {% endif %}
+        {% endif %}  
+      <div class="mb-3 div-antes" style="{{ dispdesp }}">
+        <label class="form-label"><b>Dias antes o despues de la fecha</b></label>
+        <label class="d-block" for="edo-ani">
+          <input class="radio_animated" id="edo-ani" type="radio" name="vencimiento" value="1" disabled {{ antesched }}><b>Antes</b>
+        </label>
+        <label class="d-block" for="edo-ani1">
+          <input class="radio_animated" id="edo-ani1" type="radio" name="vencimiento" value="2" disabled {{ despuesched }}><b>Despues</b>
+        </label>
+      </div>
+      <div class="mb-3 div-alta" style="{{ dispdespp }}">
+        <label class="form-label"></label>
+        <label class="d-block" for="chk-ani">
+          <input class="checkbox_animated" id="chk-alta" type="checkbox" name="alta" {{ despuescked }}><b>Despues de Fecha</b>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {% if proceso is defined and proceso.dia is not empty %}
+      {% set dispdia = 'display: true;' %} 
+    {% else %}
+      {% set dispdia = 'display: none;' %}          
+    {% endif %}
+    <div class="mb-3 div-dias" style="{{ dispdia }}">
+      <div class="col-lg-3">
+        <label class="form-label"><b>Dias de Vencimiento:</b></label>
+      </div>
+      <div class="col-lg-3">
+        <input class="form-control dia" min="0" max="31" type="number" name="dias" value="{{ proceso.dia }}" placeholder="Dias"  readonly>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mb-3 div-alta" style="{{ dispdespp }}">
+      <div class="col-lg-3">
+        {% if proceso is defined and proceso.recurrencia is not empty %}
+          {% if proceso.recurrencia.id == 4 %}
+            {% set dispsemana = 'display: true;' %} 
+          {% else %}
+            {% set dispsemana = 'display: none;' %}
+          {% endif %}  
+        {% else %}
+          {% set dispsemana = 'display: none;' %}          
+        {% endif %}
+        <div class="card div-semana" style="{{ dispsemana }}">
+          <div class="card-body animate-chk">
+            <div class="row">
+              <div class="col">
+                <label class="d-block" for="edo-ani">
+                  <input class="radio_animated" id="edo-ani" type="radio" name="d-semana" value="1">Lunes
+                </label>
+                <label class="d-block" for="edo-ani1">
+                  <input class="radio_animated" id="edo-ani1" type="radio" name="d-semana" value="3">Miercoles
+                </label>
+                <label class="d-block" for="edo-ani2">
+                  <input class="radio_animated" id="edo-ani2" type="radio" name="d-semana" value="5">Viernes
+                </label>
+                <label class="d-block" for="edo-ani3">
+                  <input class="radio_animated" id="edo-ani3" type="radio" name="d-semana" value="7">Domingo
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card div-semana" style="{{ dispsemana }}">
+          <div class="card-body animate-chk">
+            <div class="row">
+              <div class="col">
+                <label class="d-block" for="edo-ani">
+                  <input class="radio_animated" id="edo-ani4" type="radio" name="d-semana" value="2">Martes
+                </label>
+                <label class="d-block" for="edo-ani1">
+                  <input class="radio_animated" id="edo-ani5" type="radio" name="d-semana" value="4">Jueves
+                </label>
+                <label class="d-block" for="edo-ani2">
+                  <input class="radio_animated" id="edo-ani6" type="radio" name="d-semana" value="6">Sabado
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

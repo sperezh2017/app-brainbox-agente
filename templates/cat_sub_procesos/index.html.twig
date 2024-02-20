@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Sub Procesos{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3> Sub Procesos</h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_dashboard') }}"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item">Catalogos</li>
+                    <li class="breadcrumb-item active">Lista Sub Procesos</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row project-cards">
+              <div class="col-md-12 project-list">
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-8 p-0 d-flex">{% for label, flashes in app.session.flashbag.all %}
+						{% for flash in flashes %}
+							{% if ( label == 'success' ) %}
+								<div class="alert alert-success alert-dismissible fade show">
+									{{ flash }}
+								</div>
+							{% elseif ( label == 'error' ) %}
+								<div class="alert alert-danger alert-dismissible fade show">
+									{{ flash }}
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+                    </div>
+                    <div class="col-md-4 p-0">
+                      <div class="form-group mb-0 me-0"></div><a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#ModalSub"> <i data-feather="plus-square"> </i>Crear Sub Proceso</a>
+                      <div class="modal fade" id="ModalSub" tabindex="-1" role="dialog" aria-labelledby="ModalSub" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header btn-primary">
+                              <h5 class="modal-title">Nueva Sub Proceso</h5>
+                              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form class="card" action="{{ path('app_cat_sub_procesos_new') }}" method="post">
+                            <div class="modal-body">
+                              <input  name="id" value="0" type="hidden"/>
+                              <label class="form-label"><b>Codigo</b></label>
+                              <h3>{{ "%03d"|format(ultcodigo) }}</h3>
+                              <label class="form-label"><b>Proceso</b></label>
+                                <select class="form-control btn-square" name="proceso">
+                                    <option value="0">--Seleccionar Proceso--</option>
+                                    {% for proceso in procesos %}
+                                        <option value="{{ proceso.id }}">{{ proceso.prodescripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                              <label class="form-label"><b>Sub Proceso</b></label>
+                              <input class="form-control" type="text" name="subproceso" value="" placeholder="sub Proceso" required>    
+                              </br>
+                              </br>
+                                    <label class="form-label"><b>Activo</b></label>
+                                    <label class="switch">
+                                      <input id="bootstrap-notify-url" name="activo" type="checkbox" checked/><span class="switch-state"></span>
+                                    </label>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                              <button class="btn btn-primary" type="submit">Grabar</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+              </div>
+              <div class="col-sm-8">
+                <div class="card">
+                  <div class="card-header pb-0">
+                    <h5>Lista de Sub Procesos</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                    <input  name="labelEli" id="labelEliminar"  value="Sub Proceso" type="hidden"/>
+                      <table class="display" id="basic-1">
+                        <thead>
+                          <tr>
+                            <th>Codigo</th>
+                            <th>Proceso</th>
+                            <th>Sub Proceso</th>
+                            <th>Activo</th>
+                            {% if editar == 1 or eliminar == 1 %}<th>Accion</th>{% endif %}
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for subproceso in cat_sub_procesos %}
+                          <tr>
+                            <td>{{ "%03d"|format(subproceso.id) }}</td>
+                            <td>{{ subproceso.proceso.prodescripcion }}</td>
+                            <td>{{ subproceso.subproceso }}</td>
+                            <td>{% if subproceso.inactivo == true %}<i class="fa fa-times"></i>{% else %}<i class="fa fa-check font-primary"></i>{% endif %}</td>
+                            <td> 
+                              <ul class="action"> 
+                                <li class="edit"> <a href="#" data-bs-toggle="modal" data-bs-target="#ModalSub{{ subproceso.id }}"><i class="icon-pencil-alt"></i></a></li>
+                                <li class="delete"><a href="{{ path('app_cat_sub_procesos_delete', {'id': subproceso.id}) }}" class="boxeliminar"><i class="icon-trash"></i></a></li>
+                              </ul>
+                              <div class="modal fade" id="ModalSub{{ subproceso.id }}" tabindex="-1" role="dialog" aria-labelledby="ModalSub{{ subproceso.id }}" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header btn-primary">
+                                        <h5 class="modal-title">Editar Sub Proceso</h5>
+                                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <form action="{{ path('app_cat_sub_procesos_new') }}" method="post">
+                                      <div class="modal-body">
+                                        <input  name="id" value="{{ subproceso.id }}" type="hidden"/>
+                                        <label class="form-label"><b>Codigo</b></label>
+                                        <h3>{{ "%03d"|format(subproceso.id) }}</h3>
+                                        <label class="form-label"><b>Proceso</b></label>
+                                        <select class="form-control btn-square" name="proceso">
+                                            <option value="0">--Seleccionar Proceso--</option>
+                                            {% for proceso in procesos %}
+                                            {% set selectd = '' %}
+                                            {% if proceso is defined %}
+                                                {% if proceso.id == subproceso.proceso.id %}
+                                                    {% set selectd = 'selected' %}
+                                                {% endif %}
+                                            {% endif %}
+                                                <option value="{{ proceso.id }}" {{ selectd }}>{{ proceso.prodescripcion }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label class="form-label"><b>Sub Proceso</b></label>
+                                        <input class="form-control" type="text" name="subproceso" value="{{ subproceso.subproceso }}" placeholder="Sub Proceso" required/>
+                                        </br>
+                                        <label class="form-label"><b>Activo</b></label>
+                                        <label class="switch">
+                                          <input id="bootstrap-notify-url" name="activo" type="checkbox" {% if subproceso is defined %}{% if subproceso.inactivo == false %} checked {% endif %}{% endif %}><span class="switch-state"></span>
+                                        </label>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                                        <button class="btn btn-primary" type="submit">Grabar</button>
+                                      </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+{% endblock %}

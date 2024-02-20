@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CatSubProcesosRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CatSubProcesosRepository::class)]
@@ -25,18 +24,6 @@ class CatSubProcesos
 
     #[ORM\Column]
     private ?bool $eliminar = null;
-
-    #[ORM\ManyToOne(inversedBy: 'catSubProcesos')]
-    private ?Usuario $usuCreate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $fechaCreate = null;
-
-    #[ORM\ManyToOne(inversedBy: 'catSubProcesos')]
-    private ?Usuario $usuUpdate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $fechaUpdate = null;
 
     public function getId(): ?int
     {
@@ -87,54 +74,6 @@ class CatSubProcesos
     public function setEliminar(bool $eliminar): static
     {
         $this->eliminar = $eliminar;
-
-        return $this;
-    }
-
-    public function getUsuCreate(): ?Usuario
-    {
-        return $this->usuCreate;
-    }
-
-    public function setUsuCreate(?Usuario $usucreate): static
-    {
-        $this->usuCreate = $usucreate;
-
-        return $this;
-    }
-
-    public function getFechaCreate(): ?\DateTimeInterface
-    {
-        return $this->fechaCreate;
-    }
-
-    public function setFechaCreate(\DateTimeInterface $fechaCreate): static
-    {
-        $this->fechaCreate = $fechaCreate;
-
-        return $this;
-    }
-
-    public function getUsuUpdate(): ?Usuario
-    {
-        return $this->usuUpdate;
-    }
-
-    public function setUsuUpdate(?Usuario $usuUpdate): static
-    {
-        $this->usuUpdate = $usuUpdate;
-
-        return $this;
-    }
-
-    public function getFechaUpdate(): ?\DateTimeInterface
-    {
-        return $this->fechaUpdate;
-    }
-
-    public function setFechaUpdate(\DateTimeInterface $fechaUpdate): static
-    {
-        $this->fechaUpdate = $fechaUpdate;
 
         return $this;
     }

@@ -45,4 +45,18 @@ class TareaRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function insertTarea($subproceso,$proceso,$usuario,$fecha,$activo)
+{
+    $subpro = new Tarea();
+    $subpro->setTitulo($subproceso)
+            ->setProceso($proceso)
+            ->setCreador($usuario)
+            ->setUsuario($usuario)
+            ->setFechacrea($fecha)
+            ->setFechamod($fecha)
+            ->setInactivo($activo)
+            ->setEliminar(false);
+    return $subpro;
+}
 }
