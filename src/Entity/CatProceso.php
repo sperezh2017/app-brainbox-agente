@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CatProcesoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CatProcesoRepository::class)]
@@ -69,6 +70,21 @@ class CatProceso
     #[ORM\OneToMany(mappedBy: 'proceso', targetEntity: Tarea::class)]
     private Collection $tareas;
 
+    #[ORM\OneToMany(mappedBy: 'proceso', targetEntity: ProcesoLogs::class)]
+    private Collection $procesoLogs;
+
+    #[ORM\ManyToOne(inversedBy: 'catProcesos')]
+    private ?Usuario $usuCreate = null;
+
+    #[ORM\ManyToOne(inversedBy: 'catProcesos')]
+    private ?Usuario $usuUpdate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $fechaCreate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $fechaUpdate = null;
+
     public function __construct()
     {
         $this->catSubProcesos = new ArrayCollection();
@@ -76,6 +92,7 @@ class CatProceso
         $this->clienteProcesos = new ArrayCollection();
         $this->tipoGuias = new ArrayCollection();
         $this->tareas = new ArrayCollection();
+        $this->procesoLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -379,6 +396,84 @@ class CatProceso
                 $tarea->setProceso(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProcesoLogs>
+     */
+    public function getProcesoLogs(): Collection
+    {
+        return $this->procesoLogs;
+    }
+
+    public function addProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if (!$this->procesoLogs->contains($procesoLog)) {
+            $this->procesoLogs->add($procesoLog);
+            $procesoLog->setProceso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if ($this->procesoLogs->removeElement($procesoLog)) {
+            // set the owning side to null (unless already changed)
+            if ($procesoLog->getProceso() === $this) {
+                $procesoLog->setProceso(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUsuCreate(): ?Usuario
+    {
+        return $this->usuCreate;
+    }
+
+    public function setUsuCreate(?Usuario $usuCreate): static
+    {
+        $this->usuCreate = $usuCreate;
+
+        return $this;
+    }
+
+    public function getUsuUpdate(): ?Usuario
+    {
+        return $this->usuUpdate;
+    }
+
+    public function setUsuUpdate(?Usuario $usuUpdate): static
+    {
+        $this->usuUpdate = $usuUpdate;
+
+        return $this;
+    }
+
+    public function getFechaCreate(): ?\DateTimeInterface
+    {
+        return $this->fechaCreate;
+    }
+
+    public function setFechaCreate(\DateTimeInterface $fechaCreate): static
+    {
+        $this->fechaCreate = $fechaCreate;
+
+        return $this;
+    }
+
+    public function getFechaUpdate(): ?\DateTimeInterface
+    {
+        return $this->fechaUpdate;
+    }
+
+    public function setFechaUpdate(\DateTimeInterface $fechaUpdate): static
+    {
+        $this->fechaUpdate = $fechaUpdate;
 
         return $this;
     }

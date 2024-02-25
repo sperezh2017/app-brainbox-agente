@@ -46,7 +46,7 @@ class CatProcesoRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-  public function insertProceso($nuevo,$proceso,$nombproc,$dias,$mes,$recurren,$entidad,$diaant,$activo,$tipo,$variable,$diasemana,$despues,$habilitar)
+  public function insertProceso($nuevo,$proceso,$nombproc,$dias,$mes,$recurren,$entidad,$diaant,$activo,$tipo,$variable,$diasemana,$despues,$habilitar,$usuCreate,$usuUpdate,$fechaCreate,$fechaUpdate)
   {
     if(empty($proceso))
     {
@@ -65,7 +65,9 @@ class CatProcesoRepository extends ServiceEntityRepository
                     ->setVariableInicio($variable)
                     ->setDiasemana($diasemana)
                     ->setDespues($despues)
-                    ->setHabFin($habilitar);
+                    ->setHabFin($habilitar)
+                    ->setUsuUpdate($usuUpdate)
+                    ->setFechaUpdate($fechaUpdate);
           }
           elseif($nuevo == 1 and empty($proceso))
           {
@@ -82,7 +84,11 @@ class CatProcesoRepository extends ServiceEntityRepository
                     ->setVariableInicio($variable)
                     ->setDiasemana($diasemana)
                     ->setDespues($despues)
-                    ->setHabFin($habilitar);
+                    ->setHabFin($habilitar)
+                    ->setUsuCreate($usuCreate)
+                    ->setUsuUpdate($usuUpdate)
+                    ->setFechaCreate($fechaCreate)
+                    ->setFechaUpdate($fechaUpdate);
           }
           elseif($nuevo == 1 and $proceso)
           {
@@ -98,7 +104,9 @@ class CatProcesoRepository extends ServiceEntityRepository
                     ->setVariableInicio($variable)
                     ->setDiasemana($diasemana)
                     ->setDespues($despues)
-                    ->setHabFin($habilitar);
+                    ->setHabFin($habilitar)
+                    ->setUsuUpdate($usuUpdate)
+                    ->setFechaUpdate($fechaUpdate);
           }
         
        return $proceso;

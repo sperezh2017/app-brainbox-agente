@@ -24,10 +24,14 @@ class TipoProceso
     #[ORM\OneToMany(mappedBy: 'tipoProceso', targetEntity: VariableInicio::class)]
     private Collection $variableInicios;
 
+    #[ORM\OneToMany(mappedBy: 'tipoProceso', targetEntity: ProcesoLogs::class)]
+    private Collection $procesoLogs;
+
     public function __construct()
     {
         $this->catProcesos = new ArrayCollection();
         $this->variableInicios = new ArrayCollection();
+        $this->procesoLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,6 +105,36 @@ class TipoProceso
             // set the owning side to null (unless already changed)
             if ($variableInicio->getTipoProceso() === $this) {
                 $variableInicio->setTipoProceso(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProcesoLogs>
+     */
+    public function getProcesoLogs(): Collection
+    {
+        return $this->procesoLogs;
+    }
+
+    public function addProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if (!$this->procesoLogs->contains($procesoLog)) {
+            $this->procesoLogs->add($procesoLog);
+            $procesoLog->setTipoProceso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if ($this->procesoLogs->removeElement($procesoLog)) {
+            // set the owning side to null (unless already changed)
+            if ($procesoLog->getTipoProceso() === $this) {
+                $procesoLog->setTipoProceso(null);
             }
         }
 

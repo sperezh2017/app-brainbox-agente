@@ -24,9 +24,13 @@ class VariableInicio
     #[ORM\OneToMany(mappedBy: 'variableInicio', targetEntity: CatProceso::class)]
     private Collection $catProcesos;
 
+    #[ORM\OneToMany(mappedBy: 'variableInicio', targetEntity: ProcesoLogs::class)]
+    private Collection $procesoLogs;
+
     public function __construct()
     {
         $this->catProcesos = new ArrayCollection();
+        $this->procesoLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +86,36 @@ class VariableInicio
             // set the owning side to null (unless already changed)
             if ($catProceso->getVariableInicio() === $this) {
                 $catProceso->setVariableInicio(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProcesoLogs>
+     */
+    public function getProcesoLogs(): Collection
+    {
+        return $this->procesoLogs;
+    }
+
+    public function addProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if (!$this->procesoLogs->contains($procesoLog)) {
+            $this->procesoLogs->add($procesoLog);
+            $procesoLog->setVariableInicio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if ($this->procesoLogs->removeElement($procesoLog)) {
+            // set the owning side to null (unless already changed)
+            if ($procesoLog->getVariableInicio() === $this) {
+                $procesoLog->setVariableInicio(null);
             }
         }
 

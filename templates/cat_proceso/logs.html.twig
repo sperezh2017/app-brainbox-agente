@@ -1,0 +1,40 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table table-striped tabLogs">
+        <thead>
+          <tr>
+            <th>Codigo</th>
+            <th>Proceso</th>
+            <th>Dia de Ejecucion</th>
+            <th>Mes</th>
+            <th>Vencimientos de tareas y alertas</th>
+            <th>Dias de Alerta</th>
+            <th>Entidad de Control</th>
+            <th>U.Creacion</th>
+            <th>U.Modificacion</th>
+            <th>F.Creacion</th>
+            <th>F.Modificacion</th>
+          </tr>
+        </thead>
+        <tbody class="table-tbody">
+          {% for proceso in procesologs %}
+            <tr>
+              <td>{{ "%03d"|format(proceso.id) }}</td>
+              <td>{{ proceso.prodescripcion }}</td>
+              <td>{% if proceso.dia is not empty %}{{ proceso.dia }}{% endif %}</td>
+              <td>{% if proceso.mes is not empty %}{{ proceso.mes.mes}}{% endif %}</td>
+              <td>{% if proceso.recurrencia is not empty %}{{ proceso.recurrencia.descripcion }}{% endif %}</td>
+              <td>{{ proceso.proantdias }}</td>
+              <td>{% if proceso.entidad is not empty %}{{ proceso.entidad.descripcion }}{% endif %}</td>
+              <td>{{ proceso.usuCreate.username }}</td>
+              <td>{{ proceso.usuUpdate.username }}</td>
+              <td>{{ proceso.fechaCreate|date('d/m/Y H:i') }}</td>
+              <td>{{ proceso.fechaUpdate|date('d/m/Y H:i') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

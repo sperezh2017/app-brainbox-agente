@@ -71,12 +71,20 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'usucreate', targetEntity: CatSubProcesos::class)]
     private Collection $catSubProcesos;
 
+    #[ORM\OneToMany(mappedBy: 'usuCreate', targetEntity: ProcesoLogs::class)]
+    private Collection $procesoLogs;
+
+    #[ORM\OneToMany(mappedBy: 'usuCreate', targetEntity: CatProceso::class)]
+    private Collection $catProcesos;
+
     public function __construct()
     {
         $this->tareas = new ArrayCollection();
         $this->clientes = new ArrayCollection();
         $this->usuarios = new ArrayCollection();
         $this->catSubProcesos = new ArrayCollection();
+        $this->procesoLogs = new ArrayCollection();
+        $this->catProcesos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -383,6 +391,66 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($catSubProceso->getUsucreate() === $this) {
                 $catSubProceso->setUsucreate(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProcesoLogs>
+     */
+    public function getProcesoLogs(): Collection
+    {
+        return $this->procesoLogs;
+    }
+
+    public function addProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if (!$this->procesoLogs->contains($procesoLog)) {
+            $this->procesoLogs->add($procesoLog);
+            $procesoLog->setUsuCreate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcesoLog(ProcesoLogs $procesoLog): static
+    {
+        if ($this->procesoLogs->removeElement($procesoLog)) {
+            // set the owning side to null (unless already changed)
+            if ($procesoLog->getUsuCreate() === $this) {
+                $procesoLog->setUsuCreate(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CatProceso>
+     */
+    public function getCatProcesos(): Collection
+    {
+        return $this->catProcesos;
+    }
+
+    public function addCatProceso(CatProceso $catProceso): static
+    {
+        if (!$this->catProcesos->contains($catProceso)) {
+            $this->catProcesos->add($catProceso);
+            $catProceso->setUsuCreate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatProceso(CatProceso $catProceso): static
+    {
+        if ($this->catProcesos->removeElement($catProceso)) {
+            // set the owning side to null (unless already changed)
+            if ($catProceso->getUsuCreate() === $this) {
+                $catProceso->setUsuCreate(null);
             }
         }
 

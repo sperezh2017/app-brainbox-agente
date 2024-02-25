@@ -12,15 +12,21 @@
           <tr>
             <th><button class="table-sort" data-sort="sort-name">Id</button></th>
             <th><button class="table-sort" data-sort="sort-name">Tarea</button></th>
-            <th><button class="table-sort" data-sort="sort-progress">Fecha</button></th>
+            <th><button class="table-sort" data-sort="sort-progress">U.Creacion</button></th>
+            <th><button class="table-sort" data-sort="sort-progress">F.Creacion</button></th>
+            <th><button class="table-sort" data-sort="sort-progress">U.Modificacion</button></th>
+            <th><button class="table-sort" data-sort="sort-progress">F.Modificacion</button></th>
           </tr>
         </thead>
         <tbody class="table-tbody">
           {% for tarea in tareas %}
             <tr>
               <td>{{ "%03d"|format(tarea.id) }}</td>
-              <td>{{ tarea.titulo }}</td> 
-              <td>{{ tarea.fechacrea|date('d/m/Y') }}</td>
+              <td>{{ tarea.titulo }}</td>
+              <td>{{ tarea.creador.username }}</td>  
+              <td>{{ tarea.fechacrea|date('d/m/Y H:i') }}</td>
+              <td>{{ tarea.usuario.username }}</td> 
+              <td>{{ tarea.fechamod|date('d/m/Y H:i') }}</td>
             </tr>
           {% endfor %}
         </tbody>

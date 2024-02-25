@@ -16,8 +16,11 @@
             </div>
           </div>
         </div>
-        <div class="col-md-8 p-0 d-flex">
-          {% for label, flashes in app.session.flashbag.all %}
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                {% for label, flashes in app.session.flashbag.all %}
             {% for flash in flashes %}
               {% if ( label == 'success' ) %}
                 <div class="alert alert-success alert-dismissible fade show">
@@ -30,6 +33,9 @@
               {% endif %}
             {% endfor %}
           {% endfor %}
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Page body -->
         <div class="page-body">
@@ -39,6 +45,7 @@
                 <div id="table-default" class="table-responsive">
                   <input type="hidden" class="form-control" id="listtarea" name="listTareas" value="{{ path('app_tarea_index') }}" required/>
                   <input type="hidden" class="form-control" id="verProcesourl" name="verProceso" value="{{ path('app_cat_proceso_show') }}" required/>
+                  <input type="hidden" class="form-control" id="logProcesourl" name="logProceso" value="{{ path('app_cat_proceso_logs') }}" required/>
                   <table id="tabProcesos" class="table table-striped">
                     <thead>
                       <tr>
@@ -57,16 +64,16 @@
                             </a>
                           </td>
                           <td class="sort-progress">
-                              <a href="#" class="bg-yellow text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-vista" onclick="vistaProceso({{ cat_proceso.id }})" aria-label="Visualizar" data-bs-original-title="Visualizar">
+                              <a href="#" class="bg-yellow text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-vista" onclick="vistaProceso({{ cat_proceso.id }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path></svg>
                               </a>
-                              <a href="#" class="bg-azure text-white avatar" style="align-text: center" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="editar" data-bs-original-title="Editar">
+                              <a href="#" class="bg-azure text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-editar" onclick="editarProceso({{ cat_proceso.id }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 12l5 5l10 -10"></path><path d="M2 12l5 5m5 -5l5 -5"></path></svg>
                               </a>
                               <a href="#" class="bg-green text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-report" onclick="envioProceso({{ cat_proceso.id }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                               </a>
-                              <a href="#" class="bg-secondary text-white avatar" style="align-text: center" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="logs" data-bs-original-title="Logs">
+                              <a href="#" class="bg-secondary text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-logs" onclick="logProceso({{ cat_proceso.id }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path><path d="M7 8h10"></path><path d="M7 12h10"></path><path d="M7 16h10"></path></svg>
                               </a>
                           </td>
@@ -150,39 +157,43 @@
           </div>
         </div>
       </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}  
-    <script>
-      window.onload = function () {
-          new DataTable('#tabProcesos', {
-            orderCellsTop: true,
-            fixedHeader: true,
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"},
-        });
-
-        /*var table = $('#tabProcesos').DataTable({
-              orderCellsTop: true,
-              fixedHeader: true,
-              language: {
-                      url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"},
-        });
-
-        $('#tabProcesos thead tr').clone(true).appendTo( '#tabProcesos thead' );
-        $('#tabProcesos thead tr:eq(1) th').each( function (i) {
-        var title = $(this).text(); //es el nombre de la columna
-        $(this).html( '<input type="text" placeholder="Buscar...'+title+'" />' );
- 
-        $( 'input', this ).on( 'keyup change', function () {
-            if ( table.column(i).search() !== this.value ) {
-                table
-                    .column(i)
-                    .search( this.value )
-                    .draw();
-            }
-        });
-    });*/
-      }
-    </script>
+      <div class="modal modal-blur fade" id="modal-editar" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <form name="formeditarProceso" action="{{ path('app_cat_proceso_new') }}" method="post">
+              <div class="modal-header" style="background-color: #0F98F8;">
+                <h5 class="modal-title" style="color: #f8f8f8; text-align: center;">Editar Proceso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="cargarEditar">
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn bg-red text-white btn-cancelar" data-bs-dismiss="modal">
+                  Cancel
+                </a>
+                <button type="sutmit" class="btn btn-primary ms-auto">
+                    <span>Grabar</span>
+                </button>
+              </div>
+            </form>  
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-blur fade" id="modal-logs" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xxl" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #0F98F8;">
+              <h5 class="modal-title" style="color: #f8f8f8; text-align: center;">Logs Proceso</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="cargaLogs">
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn bg-red text-white" data-bs-dismiss="modal">
+                Cerrar
+              </a>
+            </div> 
+          </div>
+        </div>
+      </div>
 {% endblock %}
