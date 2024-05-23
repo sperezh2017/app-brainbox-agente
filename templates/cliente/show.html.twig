@@ -1,0 +1,212 @@
+</br>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs">
+            <li class="nav-item">
+            <a href="#tabs-datos-7" class="nav-link active" data-bs-toggle="tab"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
+                Datos del Cliente</a>
+            </li>
+            <li class="nav-item">
+            <a href="#tabs-contacto-7" class="nav-link" data-bs-toggle="tab"><!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z"></path><path d="M10 16h6"></path><path d="M13 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M4 8h3"></path><path d="M4 12h3"></path><path d="M4 16h3"></path></svg>
+                Contactos</a>
+            </li>
+            <li class="nav-item">
+            <a href="#tabs-adicionales-7" class="nav-link" data-bs-toggle="tab"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10.325 19.683a1.723 1.723 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572a1.67 1.67 0 0 1 1.106 .831"></path><path d="M14.89 11.195a3.001 3.001 0 1 0 -4.457 3.364"></path><path d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138z"></path></svg>
+                Datos Adicionales</a>
+            </li>
+            <li class="nav-item">
+            <a href="#tabs-actividad-7" class="nav-link" data-bs-toggle="tab"><!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h4l3 8l4 -16l3 8h4" /></svg>
+                Actividades</a>
+            </li>
+        </ul>
+        </div>
+        <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active show" id="tabs-datos-7">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Tipo Documento</b></label>
+                            <input class="form-control" type="text" name="tipoDoc" value="{{ cliente.tipdoc.documento }}" placeholder="" readonly/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>documento de Identidad</b></label>
+                            <input class="form-control" type="text" name="documento" value="{{ cliente.documento }}" placeholder="" readonly/>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Razon Social</b></label>
+                            <input class="form-control" type="text" name="razon" value="{{ cliente.razonsocial }}" placeholder="" readonly/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Correo</b></label>
+                            <input class="form-control" type="text" name="correo" value="{{ cliente.email }}" placeholder="" readonly/>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Telefono</b></label>
+                            <input class="form-control" type="text" name="telefono" value="{{ cliente.telefono }}" placeholder="" readonly/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Agente</b></label>
+                            <input class="form-control" type="text" name="agente" value="{{ cliente.agente.prnombre ~' '~  cliente.agente.segnombre }}" placeholder="" readonly/>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Ciudad</b></label>
+                            <input class="form-control" type="text" name="ciudad" value="{{ cliente.ciudad.cinombre }}" placeholder="" readonly/>
+                        </div>
+                        <div class="col-lg-6">
+                        <label class="form-label"><b>Tipo de Cliente</b></label>
+                        <input class="form-control" type="text" name="tipocli" value="{{ cliente.CliTipo.tipo }}" placeholder="" readonly/>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Direccion</b></label>
+                            <input class="form-control" type="text" name="direccion" value="{{ cliente.direccion }}" placeholder="" readonly/>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="form-label"><b>Fecha Inicio</b></label>
+                            <input class="form-control" type="text" name="fechaIni" value="{{ cliente.dateIn|date('d-m-Y') }}" placeholder="" readonly/>
+                        </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label class="form-label"><b>Activo</b></label>
+                        </div>
+                        <div class="col-lg-1">
+                            {% if cliente.inactivo == true %}
+                                <svg style="color: #d61616" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg>
+                            {% else %}
+                                <svg style="color: #0F98F8;" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-2">
+                            <label class="form-label"><b>Regimen Especial</b></label>
+                        </div>
+                        <div class="col-lg-1">
+                            {% if cliente.regimen == true %}
+                                <svg style="color: #0F98F8;" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                            {% else %}
+                                <svg style="color: #d61616" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-6">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tabs-contacto-7">
+                <table id="tabContactos" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Correo</th>
+                        <th>Cargo</th>
+                        <th>Celular</th>
+                        <th>Activo</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        {% if Contactos is defined%}
+                            {% for contacto in Contactos %}
+                                <tr>
+                                    <td>{{ contacto.prnombre ~ ' ' ~ contacto.segnombre }}</td>
+                                    <td>{{ contacto.prapellido ~ ' ' ~ contacto.segapellido }}</td>
+                                    <td>{{ contacto.email}}</td>
+                                    <td>{{ contacto.cargo.clicargo }}</td>
+                                    <td>{{ contacto.celular }}</td>
+                                    <td>{% if contacto.inactivo == true %}
+                                            <svg style="color: #d61616" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg>
+                                        {% else %}
+                                            <svg style="color: #0F98F8;" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}    
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="tabs-adicionales-7">
+                <table id="tabDatosAdic" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Codigo</th>
+                        <th>Datos</th>
+                        <th>Fecha</th>
+                        <th>Aplica</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        {% if depprocesos is defined%}
+                            {% for depende in depprocesos %}
+                                <tr>
+                                    <td>{{ "%03d"|format(depende.id) }}
+                                        <input  name="cliproceso[{{depende.id}}][id]" value="{{depende.id}}" type="hidden"/>
+                                    </td>
+                                    <td>{{ depende.prodescripcion }}</td>
+                                    <td><input class="form-control date" name="cliproceso[{{depende.id}}][fecha]" id="clifecha{{depende.id}}" type="date" value="" readonly></td>
+                                    <td>{% if depende.inactivo == true %}
+                                            <svg style="color: #d61616" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg>
+                                        {% else %}
+                                            <svg style="color: #0F98F8;" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}     
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="tabs-actividad-7">
+                <div class="accordion" id="accordion-example">
+                    {% if actividades is defined%}
+                        {% set i = 'true' %}
+                        {% set j = '' %}
+                        {% set k = 'show' %}
+                        {% for actividad in actividades %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-{{ actividad.id }}">
+                                <button class="accordion-button {{ j }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ actividad.id }}" aria-expanded="{{ i }}">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M17 20h-11a3 3 0 0 1 0 -6h11a3 3 0 0 0 0 6h1a3 3 0 0 0 3 -3v-11a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v8"></path>
+                                        </svg> {{ actividad.usuCreate.username }} {{ actividad.fechaCreate|date('d-m-Y H:i') }}
+                                    </span>
+                                </button>
+                                </h2>
+                                <div id="collapse-{{ actividad.id }}" class="accordion-collapse collapse {{ k }}" data-bs-parent="#accordion-example">
+                                <div class="accordion-body pt-0">
+                                    {{ actividad.nota|nl2br }}
+                                    {% set i = 'false' %}
+                                    {% set j = 'collapsed' %}
+                                    {% set k = '' %}
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}    
+                </div>                    
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>

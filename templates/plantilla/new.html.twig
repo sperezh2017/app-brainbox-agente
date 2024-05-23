@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ProTransaccion{% endblock %}
+
+{% block body %}
+    <h1>Create new ProTransaccion</h1>
+
+    {{ include('plantilla/_form.html.twig') }}
+
+    <a href="{{ path('app_plantilla_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CatProceso index{% endblock %}
+
+{% block body %}
+   <div class="page-wrapper">
+        <!-- Page header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title">
+                  Plantillas
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                {% for label, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %}
+              {% if ( label == 'success' ) %}
+                <div class="alert alert-success alert-dismissible fade show">
+                  {{ flash }}
+                </div>
+              {% elseif ( label == 'error' ) %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                  {{ flash }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="card">
+              <div class="card-body">
+                <div id="table-default" class="table-responsive">
+                  <input type="hidden" class="form-control" id="listtarea" name="listTareas" value="{{ path('app_tarea_index') }}" required/>
+                  <input type="hidden" class="form-control" id="verProcesourl" name="verProceso" value="{{ path('app_cat_proceso_show') }}" required/>
+                  <input type="hidden" class="form-control" id="logProcesourl" name="logProceso" value="{{ path('app_cat_proceso_logs') }}" required/>
+                  <table id="tabProcesos" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Cliente</th>
+                        <th>Proceso</th>
+                        <th>Tareas</th>
+                        <th>Etiqueta</th>
+                        <th>Fecha Inicio</th>
+                        <th>Estado</th>
+                        <th>Fecha Vencimiento</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                      {% for pro_transaccion in pro_transaccions %}
+                        <tr>
+                            <td>{{ pro_transaccion.cliente.razonsocial }}</td>
+                            <td>{{ pro_transaccion.procesoNombre }}</td>
+                            <td>{{ pro_transaccion.cliente.razonsocial }}</td>
+                            <td>
+                                <select class="form-select class-etiqueta" name="etiqueta">
+                                    {% for etiqueta in etiquetas %}
+                                    {% set selectd = '' %}
+                                    {% if pro_transaccion is defined and pro_transaccion.etiqueta is not empty %}
+                                        {% if etiqueta.id == pro_transaccion.etiqueta.id %}
+                                            {% set selectd = 'selected' %}
+                                        {% endif %}
+                                    {% endif %}
+                                    <option value="{{ etiqueta.id }}" {{ selectd }}>{{ etiqueta.descripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>{{ pro_transaccion.fechaInicio ? pro_transaccion.fechaInicio|date('d-m-Y') : '' }}</td>
+                            <td>
+                                <select class="form-select class-estado" name="estado">
+                                    {% for estado in estados %}
+                                    {% set selectd = '' %}
+                                    {% if pro_transaccion is defined and pro_transaccion.estado is not empty %}
+                                        {% if estado.id == pro_transaccion.estado.id %}
+                                            {% set selectd = 'selected' %}
+                                        {% endif %}
+                                    {% endif %}
+                                    <option value="{{ estado.id }}" {{ selectd }}>{{ estado.descripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>{{ pro_transaccion.FechaVence ? pro_transaccion.FechaVence|date('d-m-Y') : '' }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Cliente</th>
+                        <th>Proceso</th>
+                        <th>Tareas</th>
+                        <th>Etiqueta</th>
+                        <th>Fecha Inicio</th>
+                        <th>Estado</th>
+                        <th>Fecha Vencimiento</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>   
+{% endblock %}

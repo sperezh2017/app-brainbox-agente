@@ -45,4 +45,29 @@ class CalendarioSriRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function insertCalendario($digito,$dia,$mes,$categoria)
+    {
+        $calendario = $this->findOneBy(array('digito' => $digito,'catCalendario' => $categoria));
+        
+        if($calendario)
+        {
+            $calendario->setDigito($digito)
+                        ->setDia($dia)
+                        ->setMes($mes)
+                        ->setCatCalendario($categoria)
+                        ->setEliminar(false);
+        }
+        else
+        {
+            $calendario = new CalendarioSri;
+            $calendario->setDigito($digito)
+                        ->setDia($dia)
+                        ->setMes($mes)
+                        ->setCatCalendario($categoria)
+                        ->setEliminar(false); 
+        }
+        
+        return $calendario;
+    }
 }

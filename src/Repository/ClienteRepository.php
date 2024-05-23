@@ -46,7 +46,7 @@ class ClienteRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-  public function insertCliente($nuevo,$cliente,$razon,$correocli,$telefono,$agente,$tipodocid,$documento,$ciudad,$direcc,$activo,$template,$regimen,$fechaini,$tipocli)
+  public function insertCliente($nuevo,$cliente,$razon,$correocli,$telefono,$agente,$tipodocid,$documento,$ciudad,$direcc,$activo,$template,$regimen,$fechaini,$tipocli,$freciva)
     {
         if(empty($cliente))
         {
@@ -67,7 +67,8 @@ class ClienteRepository extends ServiceEntityRepository
                         ->setTemplate($template)
                         ->setRegimen($regimen)
                         ->setDateIn($fechaini)
-                        ->setCliTipo($tipocli);
+                        ->setCliTipo($tipocli)
+                        ->setFrecuenciaIva($freciva);
                 //$grabar = 1;
               }
               elseif($nuevo == 1 and empty($cliente))
@@ -86,7 +87,8 @@ class ClienteRepository extends ServiceEntityRepository
                         ->setTemplate($template)
                         ->setRegimen($regimen)
                         ->setDateIn($fechaini)
-                        ->setCliTipo($tipocli);
+                        ->setCliTipo($tipocli)
+                        ->setFrecuenciaIva($freciva);
                 //$grabar = 1;
               }
               elseif($nuevo == 1 and $cliente)
@@ -104,7 +106,8 @@ class ClienteRepository extends ServiceEntityRepository
                         ->setTemplate($template)
                         ->setRegimen($regimen)
                         ->setDateIn($fechaini)
-                        ->setCliTipo($tipocli);
+                        ->setCliTipo($tipocli)
+                        ->setFrecuenciaIva($freciva);
                 //$grabar = 1;
               }
             

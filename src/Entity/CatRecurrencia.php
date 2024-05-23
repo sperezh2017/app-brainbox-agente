@@ -30,9 +30,20 @@ class CatRecurrencia
     #[ORM\Column]
     private ?bool $seleccion = null;
 
+    #[ORM\OneToMany(mappedBy: 'recurrencia', targetEntity: CalendarioSri::class)]
+    private Collection $calendarioSris;
+
+    #[ORM\Column]
+    private ?bool $noveno = null;
+
+    #[ORM\OneToMany(mappedBy: 'recurrencia', targetEntity: CatCalendarioCab::class)]
+    private Collection $catCalendarioCabs;
+
     public function __construct()
     {
         $this->catProcesos = new ArrayCollection();
+        $this->calendarioSris = new ArrayCollection();
+        $this->catCalendarioCabs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,6 +125,78 @@ class CatRecurrencia
     public function setSeleccion(bool $seleccion): static
     {
         $this->seleccion = $seleccion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalendarioSri>
+     */
+    public function getCalendarioSris(): Collection
+    {
+        return $this->calendarioSris;
+    }
+
+    public function addCalendarioSri(CalendarioSri $calendarioSri): static
+    {
+        if (!$this->calendarioSris->contains($calendarioSri)) {
+            $this->calendarioSris->add($calendarioSri);
+            $calendarioSri->setRecurrencia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendarioSri(CalendarioSri $calendarioSri): static
+    {
+        if ($this->calendarioSris->removeElement($calendarioSri)) {
+            // set the owning side to null (unless already changed)
+            if ($calendarioSri->getRecurrencia() === $this) {
+                $calendarioSri->setRecurrencia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isNoveno(): ?bool
+    {
+        return $this->noveno;
+    }
+
+    public function setNoveno(bool $noveno): static
+    {
+        $this->noveno = $noveno;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CatCalendarioCab>
+     */
+    public function getCatCalendarioCabs(): Collection
+    {
+        return $this->catCalendarioCabs;
+    }
+
+    public function addCatCalendarioCab(CatCalendarioCab $catCalendarioCab): static
+    {
+        if (!$this->catCalendarioCabs->contains($catCalendarioCab)) {
+            $this->catCalendarioCabs->add($catCalendarioCab);
+            $catCalendarioCab->setRecurrencia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatCalendarioCab(CatCalendarioCab $catCalendarioCab): static
+    {
+        if ($this->catCalendarioCabs->removeElement($catCalendarioCab)) {
+            // set the owning side to null (unless already changed)
+            if ($catCalendarioCab->getRecurrencia() === $this) {
+                $catCalendarioCab->setRecurrencia(null);
+            }
+        }
 
         return $this;
     }

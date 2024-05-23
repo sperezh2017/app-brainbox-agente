@@ -85,6 +85,12 @@ class CatProceso
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $fechaUpdate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'catProcesos')]
+    private ?CatCalendarioCab $catCalendario = null;
+
+    #[ORM\OneToMany(mappedBy: 'proceso', targetEntity: ProTransaccion::class)]
+    private Collection $proTransaccions;
+
     public function __construct()
     {
         $this->catSubProcesos = new ArrayCollection();
@@ -93,6 +99,7 @@ class CatProceso
         $this->tipoGuias = new ArrayCollection();
         $this->tareas = new ArrayCollection();
         $this->procesoLogs = new ArrayCollection();
+        $this->proTransaccions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -474,6 +481,48 @@ class CatProceso
     public function setFechaUpdate(\DateTimeInterface $fechaUpdate): static
     {
         $this->fechaUpdate = $fechaUpdate;
+
+        return $this;
+    }
+
+    public function getCatCalendario(): ?CatCalendarioCab
+    {
+        return $this->catCalendario;
+    }
+
+    public function setCatCalendario(?CatCalendarioCab $catCalendario): static
+    {
+        $this->catCalendario = $catCalendario;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProTransaccion>
+     */
+    public function getProTransaccions(): Collection
+    {
+        return $this->proTransaccions;
+    }
+
+    public function addProTransaccion(ProTransaccion $proTransaccion): static
+    {
+        if (!$this->proTransaccions->contains($proTransaccion)) {
+            $this->proTransaccions->add($proTransaccion);
+            $proTransaccion->setProceso($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProTransaccion(ProTransaccion $proTransaccion): static
+    {
+        if ($this->proTransaccions->removeElement($proTransaccion)) {
+            // set the owning side to null (unless already changed)
+            if ($proTransaccion->getProceso() === $this) {
+                $proTransaccion->setProceso(null);
+            }
+        }
 
         return $this;
     }

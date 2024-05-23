@@ -22,7 +22,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: app_dashboard
+                default_target_path: app_cat_proceso_index
 
             logout:
                 # The route name the user can go to in order to logout
@@ -42,6 +42,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: '^/cat/proceso', roles: [ ROLE_USER,ROLE_ADMIN ] }
+        - { path: '^/cliente', roles: [ ROLE_USER,ROLE_ADMIN ] }
 
 when@test:
     security:

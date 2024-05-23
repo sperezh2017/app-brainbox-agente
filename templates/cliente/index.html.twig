@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Clientes{% endblock %}
+
+{% block body %}
+   <div class="page-wrapper">
+        <!-- Page header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title">
+                  Clientes
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                {% for label, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %}
+              {% if ( label == 'success' ) %}
+                <div class="alert alert-success alert-dismissible fade show">
+                  {{ flash }}
+                </div>
+              {% elseif ( label == 'error' ) %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                  {{ flash }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="card">
+              <div class="card-body">
+                <div id="table-default" class="table-responsive">
+                  <input type="hidden" class="form-control" id="verClienteurl" name="verCliente" value="{{ path('app_cliente_show') }}"/>
+                  <table id="tabClientes" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Identificacion</th>
+                            <th>Razon Social</th>
+                            <th>Correo</th>
+                            <th>Ciudad</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                      {% for cliente in clientes %}
+                        <tr>
+                            <td>{{ cliente.tipdoc.documento }}</td>
+                            <td>{{ cliente.documento }}</td>
+                            <td>{{ cliente.razonsocial}}</td>
+                            <td>{{ cliente.email }}</td>
+                            <td>{{ cliente.ciudad.cinombre }}</td>
+                            <td>{% if cliente.inactivo == true %}
+                                    <svg style="color: #d61616" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg>
+                                {% else %}
+                                    <svg style="color: #0F98F8;" xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="#" class="bg-yellow text-white avatar" style="align-text: center" data-bs-toggle="modal" data-bs-target="#modal-vista" onclick="vistaCliente({{ cliente.id }})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path></svg>
+                                </a>
+                            </td>
+                        </tr>
+                          {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Identificacion</th>
+                            <th>Razon Social</th>
+                            <th>Correo</th>
+                            <th>Ciudad</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal modal-blur fade" id="modal-vista" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #0F98F8;">
+              <h5 class="modal-title" style="color: #f8f8f8; text-align: center;">Vista Cliente</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="cargaCliente">
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn bg-red text-white" data-bs-dismiss="modal">
+                Cerrar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>     
+{% endblock %}

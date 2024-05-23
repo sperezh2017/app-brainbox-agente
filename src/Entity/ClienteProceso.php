@@ -45,19 +45,13 @@ class ClienteProceso
     private ?CliTemplate $variable = null;
 
     #[ORM\Column]
-    private ?bool $aplicfec = null;
+    private ?int $diasemana = null;
 
     #[ORM\Column]
-    private ?bool $aplicvez = null;
+    private ?bool $despues = null;
 
     #[ORM\Column]
-    private ?bool $aplicdesp = null;
-
-    #[ORM\Column]
-    private ?bool $aplicdig = null;
-
-    #[ORM\Column]
-    private ?int $apartir = null;
+    private ?bool $habFin = null;
 
     public function getId(): ?int
     {
@@ -184,63 +178,40 @@ class ClienteProceso
         return $this;
     }
 
-    public function isAplicfec(): ?bool
+    public function getDiasemana(): ?int
     {
-        return $this->aplicfec;
+        return $this->diasemana;
     }
 
-    public function setAplicfec(bool $aplicfec): static
+    public function setDiasemana(int $diasemana): static
     {
-        $this->aplicfec = $aplicfec;
+        $this->diasemana = $diasemana;
 
         return $this;
     }
 
-    public function isAplicvez(): ?bool
+    public function isDespues(): ?bool
     {
-        return $this->aplicvez;
+        return $this->despues;
     }
 
-    public function setAplicvez(bool $aplicvez): static
+    public function setDespues(bool $despues): static
     {
-        $this->aplicvez = $aplicvez;
+        $this->despues = $despues;
 
         return $this;
     }
 
-    public function isAplicdesp(): ?bool
+    public function isHabFin(): ?bool
     {
-        return $this->aplicdesp;
+        return $this->habFin;
     }
 
-    public function setAplicdesp(bool $aplicdesp): static
+    public function setHabFin(bool $habFin): static
     {
-        $this->aplicdesp = $aplicdesp;
+        $this->habFin = $habFin;
 
         return $this;
     }
 
-    public function isAplicdig(): ?bool
-    {
-        return $this->aplicdig;
-    }
-
-    public function setAplicdig(bool $aplicdig): static
-    {
-        $this->aplicdig = $aplicdig;
-
-        return $this;
-    }
-
-    public function getApartir(): ?int
-    {
-        return $this->apartir;
-    }
-
-    public function setApartir(int $apartir): static
-    {
-        $this->apartir = $apartir;
-
-        return $this;
-    }
 }

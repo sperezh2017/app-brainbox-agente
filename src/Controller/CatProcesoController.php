@@ -8,15 +8,17 @@ use App\Entity\CatDias;
 use App\Entity\CatGrupo;
 use App\Entity\CatEntidad;
 use App\Entity\CatProceso;
+use App\Entity\ProcesoLogs;
 use App\Entity\TipoProceso;
 use App\Form\CatProcesoType;
 use App\Entity\CatRecurrencia;
-use App\Entity\ProcesoLogs;
 use App\Entity\VariableInicio;
+use Symfony\Component\Mime\Email;
 use App\Repository\CatProcesoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,7 +43,7 @@ class CatProcesoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_cat_proceso_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, MailerInterface $mailer): Response
     {
         $nombproc  = $request->get('nombproceso');
 
@@ -105,6 +107,21 @@ class CatProcesoController extends AbstractController
               $this->em->flush();
               $this->em->clear();
               $this->addFlash('success', 'El proceso fue grabado Satisfactoriamente.');
+
+              //envio de correo de cambios en los procesos
+              $email = (new Email())
+            ->from('brainbox.noreply@it-optimus.com')
+            ->to('serguey.perez@it-optimus.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email);
+
               }
               else{
                 $this->addFlash('error', 'El Proceso ya existe.');

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ProTransaccion{% endblock %}
+
+{% block body %}
+    <h1>Edit ProTransaccion</h1>
+
+    {{ include('plantilla/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_plantilla_index') }}">back to list</a>
+
+    {{ include('plantilla/_delete_form.html.twig') }}
+{% endblock %}

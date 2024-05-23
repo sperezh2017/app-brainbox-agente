@@ -68,23 +68,34 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $eliminar = null;
 
-    #[ORM\OneToMany(mappedBy: 'usucreate', targetEntity: CatSubProcesos::class)]
-    private Collection $catSubProcesos;
 
     #[ORM\OneToMany(mappedBy: 'usuCreate', targetEntity: ProcesoLogs::class)]
-    private Collection $procesoLogs;
-
-    #[ORM\OneToMany(mappedBy: 'usuCreate', targetEntity: CatProceso::class)]
+    private Collection $procesoLogs;	
+    
+     #[ORM\OneToMany(mappedBy: 'usuCreate', targetEntity: CatProceso::class)]
     private Collection $catProcesos;
+    
+    #[ORM\OneToMany(mappedBy: 'usuCreate', targetEntity: CliNotas::class)]
+    private Collection $cliNotas;
+
+    #[ORM\Column]
+    private ?bool $notificacionCliente = null;
+
+    #[ORM\Column]
+    private ?bool $notificacionProceso = null;
+
+    #[ORM\OneToMany(mappedBy: 'usuario', targetEntity: ProTransaccion::class)]
+    private Collection $proTransaccions;
 
     public function __construct()
     {
         $this->tareas = new ArrayCollection();
         $this->clientes = new ArrayCollection();
         $this->usuarios = new ArrayCollection();
-        $this->catSubProcesos = new ArrayCollection();
         $this->procesoLogs = new ArrayCollection();
         $this->catProcesos = new ArrayCollection();
+        $this->cliNotas = new ArrayCollection();
+        $this->proTransaccions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -367,35 +378,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, CatSubProcesos>
-     */
-    public function getCatSubProcesos(): Collection
-    {
-        return $this->catSubProcesos;
-    }
-
-    public function addCatSubProceso(CatSubProcesos $catSubProceso): static
-    {
-        if (!$this->catSubProcesos->contains($catSubProceso)) {
-            $this->catSubProcesos->add($catSubProceso);
-            $catSubProceso->setUsucreate($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCatSubProceso(CatSubProcesos $catSubProceso): static
-    {
-        if ($this->catSubProcesos->removeElement($catSubProceso)) {
-            // set the owning side to null (unless already changed)
-            if ($catSubProceso->getUsucreate() === $this) {
-                $catSubProceso->setUsucreate(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, ProcesoLogs>
@@ -451,6 +433,90 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($catProceso->getUsuCreate() === $this) {
                 $catProceso->setUsuCreate(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    /**
+     * @return Collection<int, CliNotas>
+     */
+    public function getCliNotas(): Collection
+    {
+        return $this->cliNotas;
+    }
+
+    public function addCliNota(CliNotas $cliNota): static
+    {
+        if (!$this->cliNotas->contains($cliNota)) {
+            $this->cliNotas->add($cliNota);
+            $cliNota->setUsuCreate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCliNota(CliNotas $cliNota): static
+    {
+        if ($this->cliNotas->removeElement($cliNota)) {
+            // set the owning side to null (unless already changed)
+            if ($cliNota->getUsuCreate() === $this) {
+                $cliNota->setUsuCreate(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isNotificacionCliente(): ?bool
+    {
+        return $this->notificacionCliente;
+    }
+
+    public function setNotificacionCliente(bool $notificacionCliente): static
+    {
+        $this->notificacionCliente = $notificacionCliente;
+
+        return $this;
+    }
+
+    public function isNotificacionProceso(): ?bool
+    {
+        return $this->notificacionProceso;
+    }
+
+    public function setNotificacionProceso(bool $notificacionProceso): static
+    {
+        $this->notificacionProceso = $notificacionProceso;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProTransaccion>
+     */
+    public function getProTransaccions(): Collection
+    {
+        return $this->proTransaccions;
+    }
+
+    public function addProTransaccion(ProTransaccion $proTransaccion): static
+    {
+        if (!$this->proTransaccions->contains($proTransaccion)) {
+            $this->proTransaccions->add($proTransaccion);
+            $proTransaccion->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProTransaccion(ProTransaccion $proTransaccion): static
+    {
+        if ($this->proTransaccions->removeElement($proTransaccion)) {
+            // set the owning side to null (unless already changed)
+            if ($proTransaccion->getUsuario() === $this) {
+                $proTransaccion->setUsuario(null);
             }
         }
 

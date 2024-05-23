@@ -64,7 +64,7 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
 //        ;
 //    }
 
-    public function insertUsuario($nuevo,$usuario,$username,$pnombre,$snombre,$papellido,$sapellido,$contrasena,$correo,$perfil,$activo,$usrsuper,$cargo): ?Usuario
+    public function insertUsuario($nuevo,$usuario,$username,$pnombre,$snombre,$papellido,$sapellido,$contrasena,$correo,$perfil,$activo,$usrsuper,$cargo,$iscliente,$isproceso): ?Usuario
     {
         if(empty($usuario))
         {
@@ -81,7 +81,9 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
                         ->setPerfilid($perfil)
                         ->setInactivo($activo)
                         ->setUsrsuper($usrsuper)
-                        ->setCargo($cargo);
+                        ->setCargo($cargo)
+                        ->setNotificacionCliente($iscliente)
+                        ->setNotificacionProceso($isproceso);
               }
               elseif($nuevo == 1 and empty($usuario))
               {
@@ -98,7 +100,9 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
                         ->setInactivo($activo)
                         ->setUsrsuper($usrsuper)
                         ->setCargo($cargo)
-                        ->setEliminar(0);
+                        ->setEliminar(0)
+                        ->setNotificacionCliente($iscliente)
+                        ->setNotificacionProceso($isproceso);
               }
               elseif($nuevo == 1 and $usuario)
               {
@@ -114,7 +118,9 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
                         ->setInactivo($activo)
                         ->setUsrsuper($usrsuper)
                         ->setCargo($cargo)
-                        ->setEliminar(0);
+                        ->setEliminar(0)
+                        ->setNotificacionCliente($iscliente)
+                        ->setNotificacionProceso($isproceso);
               }
             
         return $usuario;

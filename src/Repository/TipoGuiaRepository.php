@@ -82,4 +82,22 @@ class TipoGuiaRepository extends ServiceEntityRepository
 
         return $entguia;
     }
+
+    /*public function insertProcesoGuia($id,$activo,$listProcesos)
+    {
+        $entguia = $this->findOneById($id);
+
+            foreach($listProcesos as $protemp)
+            {
+                $procesotemp = $protemp['proceso'];
+                $activo      = $protemp['activo'];
+                $entguia->removeProceso($procesotemp);
+                if($activo)
+                {
+                    $entguia->addProceso($procesotemp);
+                }
+            }
+
+        return $entguia;
+    }*/
 }

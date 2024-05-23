@@ -4834,8 +4834,9 @@ textarea.form-control-lg {
   border-bottom: 0;
 }
 .card-header-tabs .nav-link.active {
-  background-color: var(--tblr-card-bg);
+  background-color: #0f98f8;
   border-bottom-color: var(--tblr-card-bg);
+  color: #fff;
 }
 
 .card-header-pills {
@@ -5028,6 +5029,10 @@ textarea.form-control-lg {
 
 .accordion-body {
   padding: var(--tblr-accordion-body-padding-y) var(--tblr-accordion-body-padding-x);
+  background-color: #0f98f824;
+  border: 1px solid #ffce00;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .accordion-flush .accordion-collapse {

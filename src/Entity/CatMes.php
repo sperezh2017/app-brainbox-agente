@@ -24,10 +24,14 @@ class CatMes
     #[ORM\OneToMany(mappedBy: 'mes', targetEntity: ClienteProceso::class)]
     private Collection $clienteProcesos;
 
+    #[ORM\OneToMany(mappedBy: 'mes', targetEntity: CalendarioSri::class)]
+    private Collection $calendarioSris;
+
     public function __construct()
     {
         $this->catProcesos = new ArrayCollection();
         $this->clienteProcesos = new ArrayCollection();
+        $this->calendarioSris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,6 +105,36 @@ class CatMes
             // set the owning side to null (unless already changed)
             if ($clienteProceso->getMes() === $this) {
                 $clienteProceso->setMes(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalendarioSri>
+     */
+    public function getCalendarioSris(): Collection
+    {
+        return $this->calendarioSris;
+    }
+
+    public function addCalendarioSri(CalendarioSri $calendarioSri): static
+    {
+        if (!$this->calendarioSris->contains($calendarioSri)) {
+            $this->calendarioSris->add($calendarioSri);
+            $calendarioSri->setMes($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendarioSri(CalendarioSri $calendarioSri): static
+    {
+        if ($this->calendarioSris->removeElement($calendarioSri)) {
+            // set the owning side to null (unless already changed)
+            if ($calendarioSri->getMes() === $this) {
+                $calendarioSri->setMes(null);
             }
         }
 

@@ -46,71 +46,74 @@ class CatProcesoRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-  public function insertProceso($nuevo,$proceso,$nombproc,$dias,$mes,$recurren,$entidad,$diaant,$activo,$tipo,$variable,$diasemana,$despues,$habilitar,$usuCreate,$usuUpdate,$fechaCreate,$fechaUpdate)
+public function insertProceso($nuevo,$proceso,$nombproc,$dias,$mes,$recurren,$entidad,$diaant,$activo,$tipo,$variable,$diasemana,$despues,$habilitar,$usuCreate,$usuUpdate,$fechaCreate,$fechaUpdate,$catcalenda)
+{
+  if(empty($proceso))
   {
-    if(empty($proceso))
-    {
-      $proceso = $this->findOneByProdescripcion($nombproc);
-    }
-    if($nuevo == 0 and $proceso)
-          {
-            $proceso->setProdescripcion($nombproc)
-                    ->setDia($dias)
-                    ->setMes($mes)
-                    ->setRecurrencia($recurren)
-                    ->setProantdias($diaant)
-                    ->setEntidad($entidad)
-                    ->setInactivo($activo)
-                    ->setTipoProceso($tipo)
-                    ->setVariableInicio($variable)
-                    ->setDiasemana($diasemana)
-                    ->setDespues($despues)
-                    ->setHabFin($habilitar)
-                    ->setUsuUpdate($usuUpdate)
-                    ->setFechaUpdate($fechaUpdate);
-          }
-          elseif($nuevo == 1 and empty($proceso))
-          {
-            $proceso = new CatProceso();
-            $proceso->setProdescripcion($nombproc)
-                    ->setDia($dias)
-                    ->setMes($mes)
-                    ->setRecurrencia($recurren)
-                    ->setProantdias($diaant)
-                    ->setEntidad($entidad)
-                    ->setInactivo($activo)
-                    ->setEliminar(0)
-                    ->setTipoProceso($tipo)
-                    ->setVariableInicio($variable)
-                    ->setDiasemana($diasemana)
-                    ->setDespues($despues)
-                    ->setHabFin($habilitar)
-                    ->setUsuCreate($usuCreate)
-                    ->setUsuUpdate($usuUpdate)
-                    ->setFechaCreate($fechaCreate)
-                    ->setFechaUpdate($fechaUpdate);
-          }
-          elseif($nuevo == 1 and $proceso)
-          {
-            $proceso->setProdescripcion($nombproc)
-                    ->setDia($dias)
-                    ->setMes($mes)
-                    ->setRecurrencia($recurren)
-                    ->setProantdias($diaant)
-                    ->setEntidad($entidad)
-                    ->setInactivo($activo)
-                    ->setEliminar(0)
-                    ->setTipoProceso($tipo)
-                    ->setVariableInicio($variable)
-                    ->setDiasemana($diasemana)
-                    ->setDespues($despues)
-                    ->setHabFin($habilitar)
-                    ->setUsuUpdate($usuUpdate)
-                    ->setFechaUpdate($fechaUpdate);
-          }
-        
-       return $proceso;
+    $proceso = $this->findOneByProdescripcion($nombproc);
   }
+  if($nuevo == 0 and $proceso)
+        {
+          $proceso->setProdescripcion($nombproc)
+                  ->setDia($dias)
+                  ->setMes($mes)
+                  ->setRecurrencia($recurren)
+                  ->setProantdias($diaant)
+                  ->setEntidad($entidad)
+                  ->setInactivo($activo)
+                  ->setTipoProceso($tipo)
+                  ->setVariableInicio($variable)
+                  ->setDiasemana($diasemana)
+                  ->setDespues($despues)
+                  ->setHabFin($habilitar)
+                  ->setUsuUpdate($usuUpdate)
+                  ->setFechaUpdate($fechaUpdate)
+                  ->setCatCalendario($catcalenda);
+        }
+        elseif($nuevo == 1 and empty($proceso))
+        {
+          $proceso = new CatProceso();
+          $proceso->setProdescripcion($nombproc)
+                  ->setDia($dias)
+                  ->setMes($mes)
+                  ->setRecurrencia($recurren)
+                  ->setProantdias($diaant)
+                  ->setEntidad($entidad)
+                  ->setInactivo($activo)
+                  ->setEliminar(0)
+                  ->setTipoProceso($tipo)
+                  ->setVariableInicio($variable)
+                  ->setDiasemana($diasemana)
+                  ->setDespues($despues)
+                  ->setHabFin($habilitar)
+                  ->setUsuCreate($usuCreate)
+                  ->setUsuUpdate($usuUpdate)
+                  ->setFechaCreate($fechaCreate)
+                  ->setFechaUpdate($fechaUpdate)
+                  ->setCatCalendario($catcalenda);
+        }
+        elseif($nuevo == 1 and $proceso)
+        {
+          $proceso->setProdescripcion($nombproc)
+                  ->setDia($dias)
+                  ->setMes($mes)
+                  ->setRecurrencia($recurren)
+                  ->setProantdias($diaant)
+                  ->setEntidad($entidad)
+                  ->setInactivo($activo)
+                  ->setEliminar(0)
+                  ->setTipoProceso($tipo)
+                  ->setVariableInicio($variable)
+                  ->setDiasemana($diasemana)
+                  ->setDespues($despues)
+                  ->setHabFin($habilitar)
+                  ->setUsuUpdate($usuUpdate)
+                  ->setFechaUpdate($fechaUpdate)
+                  ->setCatCalendario($catcalenda);
+        }
+      
+     return $proceso;
+}
 
   public function ultimoRegistro()
   {

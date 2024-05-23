@@ -20,7 +20,13 @@ class CalendarioSri
     private ?int $dia = null;
 
     #[ORM\Column]
-    private ?int $diasoc = null;
+    private ?bool $eliminar = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendarioSris')]
+    private ?CatMes $mes = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendarioSris')]
+    private ?CatCalendarioCab $catCalendario = null;
 
     public function getId(): ?int
     {
@@ -51,14 +57,38 @@ class CalendarioSri
         return $this;
     }
 
-    public function getDiasoc(): ?int
+    public function isEliminar(): ?bool
     {
-        return $this->diasoc;
+        return $this->eliminar;
     }
 
-    public function setDiasoc(int $diasoc): static
+    public function setEliminar(bool $eliminar): static
     {
-        $this->diasoc = $diasoc;
+        $this->eliminar = $eliminar;
+
+        return $this;
+    }
+
+    public function getMes(): ?CatMes
+    {
+        return $this->mes;
+    }
+
+    public function setMes(?CatMes $mes): static
+    {
+        $this->mes = $mes;
+
+        return $this;
+    }
+
+    public function getCatCalendario(): ?CatCalendarioCab
+    {
+        return $this->catCalendario;
+    }
+
+    public function setCatCalendario(?CatCalendarioCab $catCalendario): static
+    {
+        $this->catCalendario = $catCalendario;
 
         return $this;
     }

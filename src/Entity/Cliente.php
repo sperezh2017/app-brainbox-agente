@@ -67,11 +67,22 @@ class Cliente
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateIn = null;
 
+    #[ORM\OneToMany(mappedBy: 'cliente', targetEntity: CliNotas::class)]
+    private Collection $cliNotas;
+
+    #[ORM\Column]
+    private ?int $frecuenciaIva = null;
+
+    #[ORM\OneToMany(mappedBy: 'cliente', targetEntity: ProTransaccion::class)]
+    private Collection $proTransaccions;
+
     public function __construct()
     {
         $this->tareas = new ArrayCollection();
         $this->cliContactos = new ArrayCollection();
         $this->clienteProcesos = new ArrayCollection();
+        $this->cliNotas = new ArrayCollection();
+        $this->proTransaccions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -333,6 +344,77 @@ class Cliente
     public function setDateIn(\DateTimeInterface $dateIn): static
     {
         $this->dateIn = $dateIn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CliNotas>
+     */
+    public function getCliNotas(): Collection
+    {
+        return $this->cliNotas;
+    }
+
+    public function addCliNota(CliNotas $cliNota): static
+    {
+        if (!$this->cliNotas->contains($cliNota)) {
+            $this->cliNotas->add($cliNota);
+            $cliNota->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCliNota(CliNotas $cliNota): static
+    {
+        if ($this->cliNotas->removeElement($cliNota)) {
+            // set the owning side to null (unless already changed)
+            if ($cliNota->getCliente() === $this) {
+                $cliNota->setCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFrecuenciaIva(): ?int
+    {
+        return $this->frecuenciaIva;
+    }
+
+    public function setFrecuenciaIva(int $frecuenciaIva): static
+    {
+        $this->frecuenciaIva = $frecuenciaIva;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProTransaccion>
+     */
+    public function getProTransaccions(): Collection
+    {
+        return $this->proTransaccions;
+    }
+
+    public function addProTransaccion(ProTransaccion $proTransaccion): static
+    {
+        if (!$this->proTransaccions->contains($proTransaccion)) {
+            $this->proTransaccions->add($proTransaccion);
+            $proTransaccion->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProTransaccion(ProTransaccion $proTransaccion): static
+    {
+        if ($this->proTransaccions->removeElement($proTransaccion)) {
+            // set the owning side to null (unless already changed)
+            if ($proTransaccion->getCliente() === $this) {
+                $proTransaccion->setCliente(null);
+            }
+        }
 
         return $this;
     }

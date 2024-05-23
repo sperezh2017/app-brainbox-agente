@@ -53,14 +53,14 @@ class CliTemplateRepository extends ServiceEntityRepository
             {
                 $enttemp = $this->findOneById($id);
                 $enttemp->setNombtemplate($template)
-                        ->setClitipo($tipocli)
+                        //->setClitipo($tipocli)
                         ->setGrupo($familia)
                         ->setInactivo($activo);
             }
             elseif($enttemp)
             {
                 $enttemp->setNombtemplate($template)
-                        ->setClitipo($tipocli)
+                        //->setClitipo($tipocli)
                         ->setGrupo($familia)
                         ->setInactivo($activo)
                         ->setEliminar(false);
@@ -69,7 +69,7 @@ class CliTemplateRepository extends ServiceEntityRepository
             {
                 $enttemp = new CliTemplate;
                 $enttemp->setNombtemplate($template)
-                        ->setClitipo($tipocli)
+                        //->setClitipo($tipocli)
                         ->setGrupo($familia)
                         ->setInactivo($activo)
                         ->setEliminar(false);

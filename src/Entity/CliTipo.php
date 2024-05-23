@@ -27,9 +27,17 @@ class CliTipo
     #[ORM\OneToMany(mappedBy: 'CliTipo', targetEntity: Cliente::class)]
     private Collection $clientes;
 
+    #[ORM\OneToMany(mappedBy: 'clitipo', targetEntity: CalendarioSri::class)]
+    private Collection $calendarioSris;
+
+    #[ORM\OneToMany(mappedBy: 'clitipo', targetEntity: CatCalendarioCab::class)]
+    private Collection $catCalendarioCabs;
+
     public function __construct()
     {
         $this->clientes = new ArrayCollection();
+        $this->calendarioSris = new ArrayCollection();
+        $this->catCalendarioCabs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +105,66 @@ class CliTipo
             // set the owning side to null (unless already changed)
             if ($cliente->getCliTipo() === $this) {
                 $cliente->setCliTipo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalendarioSri>
+     */
+    public function getCalendarioSris(): Collection
+    {
+        return $this->calendarioSris;
+    }
+
+    public function addCalendarioSri(CalendarioSri $calendarioSri): static
+    {
+        if (!$this->calendarioSris->contains($calendarioSri)) {
+            $this->calendarioSris->add($calendarioSri);
+            $calendarioSri->setClitipo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendarioSri(CalendarioSri $calendarioSri): static
+    {
+        if ($this->calendarioSris->removeElement($calendarioSri)) {
+            // set the owning side to null (unless already changed)
+            if ($calendarioSri->getClitipo() === $this) {
+                $calendarioSri->setClitipo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CatCalendarioCab>
+     */
+    public function getCatCalendarioCabs(): Collection
+    {
+        return $this->catCalendarioCabs;
+    }
+
+    public function addCatCalendarioCab(CatCalendarioCab $catCalendarioCab): static
+    {
+        if (!$this->catCalendarioCabs->contains($catCalendarioCab)) {
+            $this->catCalendarioCabs->add($catCalendarioCab);
+            $catCalendarioCab->setClitipo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatCalendarioCab(CatCalendarioCab $catCalendarioCab): static
+    {
+        if ($this->catCalendarioCabs->removeElement($catCalendarioCab)) {
+            // set the owning side to null (unless already changed)
+            if ($catCalendarioCab->getClitipo() === $this) {
+                $catCalendarioCab->setClitipo(null);
             }
         }
 

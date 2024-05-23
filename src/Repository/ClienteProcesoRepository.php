@@ -46,18 +46,16 @@ class ClienteProcesoRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function insertProcesoCliente($cliente,$proceso,$mes,$dias,$diasant,$fechaeje,$tipguia,$familia,$variable,$aplicdig,$aplicfec,$aplicvez,$aplicdesp,$apartir)
+    public function insertProcesoCliente($cliente,$proceso,$mes,$dias,$diasant,$fechaeje,$tipguia,$familia,$variable,$diasemana,$despues,$habfin)
     {
         $cliproceso = new ClienteProceso();
         $cliproceso->setCliente($cliente)
                     ->setProceso($proceso)
                     ->setDia($dias)
                     ->setProantdias($diasant)
-                    ->setAplicdig($aplicdig)
-                    ->setAplicfec($aplicfec)
-                    ->setAplicvez($aplicvez)
-                    ->setAplicdesp($aplicdesp)
-                    ->setApartir($apartir);
+                    ->setDiasemana($diasemana)
+                    ->setDespues($despues)
+                    ->setHabFin($habfin);
         if($mes)
         {
             $cliproceso->setMes($mes);
