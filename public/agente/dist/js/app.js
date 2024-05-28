@@ -126,6 +126,17 @@ $(document).ready(function() {
         }
     });
 
+    $('#tabPlantilla').DataTable({language: {
+        url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+      }, 
+      columnDefs: [
+        {
+            targets: [0,2],
+            searchable: false
+        }
+    ],       
+    });
+
     $('#tabClientes').DataTable({language: {
         url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
       },
@@ -377,4 +388,70 @@ function vistaCliente(valor) {
             $('.loader_bg').attr('style','display: none;');
             $(".cargaCliente").html(res);
         });
+}
+
+function filtrarTareas() {
+    
+      var fechacorte = $('#fechacorte').val();
+      var cliente  = $('#select-cliente').val().trim().toLowerCase();
+      var proceso  = $('#select-proceso').val().trim().toLowerCase();
+      var etiqueta = $('#select-etiqueta').val().trim().toLowerCase();
+      var estado   = $('#select-estado').val().trim().toLowerCase();
+      var estfecha = $('#select-fecha').val().trim().toLowerCase();
+      
+
+      var url = $('#filtroPlantilla').val();
+      var data = {
+        fechacorte: fechacorte,
+        cliente:  cliente, 
+        proceso:  proceso,
+        etiqueta:  etiqueta, 
+        estado:  estado,
+        estfecha:  estfecha, 
+    }
+
+      $(".div-filtro").html('');
+    $('.progress').attr('style','display: true;');
+    $.ajax({
+        url: url,
+        type: "post",
+        data: data,
+    })
+        .done(function(res){
+            $('.progress').attr('style','display: none;');
+            $(".div-filtro").html(res);
+            $('#tabPlantilla').DataTable({language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+              }, 
+              columnDefs: [
+                {
+                    targets: [0,2],
+                    searchable: false
+                }
+            ],       
+            });
+        });
+}
+
+function actualizarPlantilla(valor) {
+
+    let etiqueta = $('#etiqueta_'+valor).find(":selected").val();
+    let estado   = $('#estado_'+valor).find(":selected").val();
+    let url = $('#ActualizarPlantilla').val();
+
+    var data = {
+        etiqueta:  etiqueta, 
+        estado:  estado,
+        idplanilla: valor,   
+    }
+
+    $.ajax({
+        url: url,
+        type: "post",
+        data: data,
+    })
+        .done(function(res){
+            
+        });
+
 }

@@ -45,4 +45,28 @@ class ProTransaccionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function buscarPlantillas($fecha,$clienteId,$procesoId,$etiquetaId,$estadoId,$filtFecha)
+    {
+        $entityManager = $this->getEntityManager();
+        $conn = $entityManager->getConnection();
+
+        // Prepara el SQL con los parámetros
+        $sql = 'EXEC dbo.get_procesos @tVence = :fecha, @nCliente_Id = :clienteId, @nProceso_Id = :procesoId, @nEtiqueta_Id = :etiquetaId, @nEstado_Id = :estadoId, @cFecha_Filtro = :filtfecha';
+        // Añade más parámetros al SQL según sea necesario
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('fecha', $fecha->format('Y-m-d H:i:s'));
+        $stmt->bindValue('clienteId', $clienteId);
+        $stmt->bindValue('procesoId', $procesoId);
+        $stmt->bindValue('etiquetaId', $etiquetaId);
+        $stmt->bindValue('estadoId', $estadoId);
+        $stmt->bindValue('filtfecha', $filtFecha);
+        $result = $stmt->executeQuery();
+        $result = $result->fetchAllAssociative();
+
+        //$result = $stmt->fetch();
+
+        return $result;
+    }
 }

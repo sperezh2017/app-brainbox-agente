@@ -1,11 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CatProceso index{% endblock %}
+{% block title %}Lista de Plantillas{% endblock %}
 
 {% block body %}
    <div class="page-wrapper">
         <!-- Page header -->
-        <div class="page-header d-print-none">
+        {% if ( flashes is defined ) %}
+          <div class="page-header d-print-none">
+            <div class="container-xl">
+              <div class="row g-2 align-items-center">
+                <div class="col">
+                  {% for label, flashes in app.session.flashbag.all %}
+              {% for flash in flashes %}
+                {% if ( label == 'success' ) %}
+                  <div class="alert alert-success alert-dismissible fade show">
+                    {{ flash }}
+                  </div>
+                {% elseif ( label == 'error' ) %}
+                  <div class="alert alert-danger alert-dismissible fade show">
+                    {{ flash }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        <!-- Page body -->
+        <div class="page-body">
           <div class="container-xl">
             <div class="row g-2 align-items-center">
               <div class="col">
@@ -14,62 +38,92 @@
                 </h2>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="page-header d-print-none">
-          <div class="container-xl">
-            <div class="row g-2 align-items-center">
-              <div class="col">
-                {% for label, flashes in app.session.flashbag.all %}
-            {% for flash in flashes %}
-              {% if ( label == 'success' ) %}
-                <div class="alert alert-success alert-dismissible fade show">
-                  {{ flash }}
-                </div>
-              {% elseif ( label == 'error' ) %}
-                <div class="alert alert-danger alert-dismissible fade show">
-                  {{ flash }}
-                </div>
-              {% endif %}
-            {% endfor %}
-          {% endfor %}
+            <div class="row row-cards">
+              <div class="col-12">
+                  <div class="row g-3 align-items-center">
+                    <div class="col-3 col-sm-3 col-md-3 col-xl py-4">
+                      <div class="form-label">Fecha Corte</div>
+                      <input class="form-control" type="date" id="fechacorte" name="fechaCorte" value="{{ "now"|date('Y-m-d') }}" onchange="filtrarTareas()">
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-xl py-4">
+                      <div class="form-label">Cliente</div>
+                      <select type="text" class="form-select" id="select-cliente" onchange="filtrarTareas()">
+                        <option value="0">Todo</option>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.razonsocial }}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-xl py-4">
+                      <label class="form-label">Proceso</label>
+                        <select type="text" class="form-select" id="select-proceso" onchange="filtrarTareas()">
+                          <option value="0">Todo</option>
+                          {% for proceso in procesos %}
+                            <option value="{{ proceso.id }}">{{ proceso.prodescripcion }}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-xl py-4">
+                      <div class="form-label">Etiqueta</div>
+                      <select class="form-select" id="select-etiqueta" onchange="filtrarTareas()">
+                        <option value="0">Todo</option>
+                        {% for etiqueta in etiquetas %}
+                          <option value="{{ etiqueta.id }}">{{ etiqueta.descripcion }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-xl py-4">
+                      <div class="form-label">Fecha de Vencimiento</div>
+                      <select class="form-select" id="select-fecha" onchange="filtrarTareas()">
+                        <option value="0">Todo</option>
+                        
+                        {% for estfecha in estfechas %}
+                          <option value="{{ estfecha.concepto }}">{{ estfecha.concepto }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-3 col-sm-3 col-md-3 col-xl py-4">
+                      <div class="form-label">Estado</div>
+                      <select class="form-select" id="select-estado" onchange="filtrarTareas()">
+                        <option value="0">Todo</option>
+                        {% for estado in estados %}
+                          <option value="{{ estado.id }}">{{ estado.descripcion }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- Page body -->
-        <div class="page-body">
-          <div class="container-xl">
-            <div class="card">
+            <div class="progress" style="display: none;">
+              <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+            </div>
+            <div class="card div-filtro">
               <div class="card-body">
                 <div id="table-default" class="table-responsive">
-                  <input type="hidden" class="form-control" id="listtarea" name="listTareas" value="{{ path('app_tarea_index') }}" required/>
-                  <input type="hidden" class="form-control" id="verProcesourl" name="verProceso" value="{{ path('app_cat_proceso_show') }}" required/>
-                  <input type="hidden" class="form-control" id="logProcesourl" name="logProceso" value="{{ path('app_cat_proceso_logs') }}" required/>
-                  <table id="tabProcesos" class="table table-striped">
+                  <input type="hidden" class="form-control" id="filtroPlantilla" name="filtro" value="{{ path('app_plantilla_filtro') }}"/>
+                  <input type="hidden" class="form-control" id="ActualizarPlantilla" name="filtro" value="{{ path('app_plantilla_edit') }}"/>
+                  <table id="tabPlantilla" class="table table-striped">
                     <thead>
                       <tr>
                         <th>Cliente</th>
                         <th>Proceso</th>
-                        <th>Tareas</th>
                         <th>Etiqueta</th>
                         <th>Fecha Inicio</th>
-                        <th>Estado</th>
                         <th>Fecha Vencimiento</th>
+                        <th>Estado</th>
                       </tr>
                     </thead>
                     <tbody class="table-tbody">
                       {% for pro_transaccion in pro_transaccions %}
                         <tr>
-                            <td>{{ pro_transaccion.cliente.razonsocial }}</td>
-                            <td>{{ pro_transaccion.procesoNombre }}</td>
-                            <td>{{ pro_transaccion.cliente.razonsocial }}</td>
+                            <td>{{ pro_transaccion.razonsocial }}</td>
+                            <td>{{ pro_transaccion.proceso_nombre }}</td>
                             <td>
-                                <select class="form-select class-etiqueta" name="etiqueta">
+                                <select class="form-select class-etiqueta" name="etiqueta" id="etiqueta_{{pro_transaccion.id}}" onchange="actualizarPlantilla({{pro_transaccion.id}})">
                                     {% for etiqueta in etiquetas %}
                                     {% set selectd = '' %}
-                                    {% if pro_transaccion is defined and pro_transaccion.etiqueta is not empty %}
-                                        {% if etiqueta.id == pro_transaccion.etiqueta.id %}
+                                    {% if pro_transaccion is defined and pro_transaccion.etiqueta_id is not empty %}
+                                        {% if etiqueta.id == pro_transaccion.etiqueta_id %}
                                             {% set selectd = 'selected' %}
                                         {% endif %}
                                     {% endif %}
@@ -77,13 +131,14 @@
                                     {% endfor %}
                                 </select>
                             </td>
-                            <td>{{ pro_transaccion.fechaInicio ? pro_transaccion.fechaInicio|date('d-m-Y') : '' }}</td>
+                            <td>{{ pro_transaccion.fecha_inicio ? pro_transaccion.fecha_inicio|date('d-m-Y') : '' }}</td>
+                            <td>{{ pro_transaccion.fecha_vence ? pro_transaccion.fecha_vence|date('d-m-Y') : '' }}</td>
                             <td>
-                                <select class="form-select class-estado" name="estado">
+                                <select class="form-select class-estado" name="estado" id="estado_{{pro_transaccion.id}}" onchange="actualizarPlantilla({{pro_transaccion.id}})">
                                     {% for estado in estados %}
                                     {% set selectd = '' %}
-                                    {% if pro_transaccion is defined and pro_transaccion.estado is not empty %}
-                                        {% if estado.id == pro_transaccion.estado.id %}
+                                    {% if pro_transaccion is defined and pro_transaccion.estado_id is not empty %}
+                                        {% if estado.id == pro_transaccion.estado_id %}
                                             {% set selectd = 'selected' %}
                                         {% endif %}
                                     {% endif %}
@@ -91,7 +146,6 @@
                                     {% endfor %}
                                 </select>
                             </td>
-                            <td>{{ pro_transaccion.FechaVence ? pro_transaccion.FechaVence|date('d-m-Y') : '' }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -99,11 +153,10 @@
                       <tr>
                         <th>Cliente</th>
                         <th>Proceso</th>
-                        <th>Tareas</th>
                         <th>Etiqueta</th>
                         <th>Fecha Inicio</th>
-                        <th>Estado</th>
                         <th>Fecha Vencimiento</th>
+                        <th>Estado</th>
                       </tr>
                     </tfoot>
                   </table>

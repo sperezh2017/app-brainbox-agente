@@ -1,0 +1,66 @@
+<div class="card div-filtro">
+  <div class="card-body">
+    <div id="table-default" class="table-responsive">
+      <input type="hidden" class="form-control" id="filtroPlantilla" name="filtro" value="{{ path('app_plantilla_filtro') }}"/>
+      <input type="hidden" class="form-control" id="ActualizarPlantilla" name="filtro" value="{{ path('app_plantilla_edit') }}"/>
+      <table id="tabPlantilla" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Proceso</th>
+            <th>Etiqueta</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Vencimiento</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody class="table-tbody">
+          {% for pro_transaccion in pro_transaccions %}
+            <tr>
+                <td>{{ pro_transaccion.razonsocial }}</td>
+                <td>{{ pro_transaccion.proceso_nombre }}</td>
+                <td>
+                    <select class="form-select class-etiqueta" name="etiqueta" id="etiqueta_{{pro_transaccion.id}}" onchange="actualizarPlantilla({{pro_transaccion.id}})">
+                        {% for etiqueta in etiquetas %}
+                        {% set selectd = '' %}
+                        {% if pro_transaccion is defined and pro_transaccion.etiqueta_id is not empty %}
+                            {% if etiqueta.id == pro_transaccion.etiqueta_id %}
+                                {% set selectd = 'selected' %}
+                            {% endif %}
+                        {% endif %}
+                        <option value="{{ etiqueta.id }}" {{ selectd }}>{{ etiqueta.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>{{ pro_transaccion.fecha_inicio ? pro_transaccion.fecha_inicio|date('d-m-Y') : '' }}</td>
+                <td>{{ pro_transaccion.fecha_vence ? pro_transaccion.fecha_vence|date('d-m-Y') : '' }}</td>
+                <td>
+                    <select class="form-select class-estado" name="estado" id="estado_{{pro_transaccion.id}}" onchange="actualizarPlantilla({{pro_transaccion.id}})">
+                        {% for estado in estados %}
+                        {% set selectd = '' %}
+                        {% if pro_transaccion is defined and pro_transaccion.estado_id is not empty %}
+                            {% if estado.id == pro_transaccion.estado_id %}
+                                {% set selectd = 'selected' %}
+                            {% endif %}
+                        {% endif %}
+                        <option value="{{ estado.id }}" {{ selectd }}>{{ estado.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Cliente</th>
+            <th>Proceso</th>
+            <th>Etiqueta</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Vencimiento</th>
+            <th>Estado</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
